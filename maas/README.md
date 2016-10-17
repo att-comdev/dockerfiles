@@ -1,4 +1,7 @@
-README.md
+Overview
+==================
+
+The MaaS project attempts to build highly decoupled metal as a service containers for use on the Kubernetes platform.  Today, we only break the MaaS service into the traditional region and rack controllers and breaking it down further is a work in progress.
 
 Building Containers
 ===================
