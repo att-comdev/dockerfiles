@@ -1,4 +1,4 @@
-.PHONY: build push shell run start stop rm release
+.PHONY: build run_region run_rack get_region_api_key get_region_secret get_region_ip_address register_rack
 
 build:
 	sudo docker build -t "maas-rack:dockerfile" maas-rack-controller
