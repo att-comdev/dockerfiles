@@ -13,24 +13,30 @@ RUN find /etc/systemd/system \
          -exec rm \{} \;
 RUN systemctl set-default multi-user.target
 
-# Local setup file on your host
-COPY setup /sbin/
-
-# initalize systemd
-CMD ["/sbin/init"]
-
 # everything else below is to setup maas into the systemd initialized
 # container based on ubuntu 16.04
 RUN apt-get -qq update && \
     apt-get -y install sudo
 
-#install rsyslog
+# install syslog and enable it
 RUN apt-get install -y rsyslog
 RUN systemctl enable rsyslog.service
 
-#install maas
-RUN systemctl enable rsyslog.service && \
-    service rsyslog restart && \
-    apt-get install -y maas && \
-    maas createadmin --username=admin --password=admin --email=foo@foo.com
+# install maas
+RUN rsyslogd; apt-get install -y maas-cli maas-region-controller 
 
+# potentially used to calculate cidrs
+RUN apt-get install -y python3-pip
+RUN pip3 install netaddr
+
+COPY scripts/create-provisioning-network.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/create-provisioning-network.sh
+
+# we'll create a service which will help create our
+# provisioning network when the maas API 
+# gets instantiated
+COPY scripts/create-provisioning-network.service /lib/systemd/system/create-provisioning-network.service
+RUN systemctl enable create-provisioning-network.service
+
+# initalize systemd
+CMD ["/sbin/init"]
