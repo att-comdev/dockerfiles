@@ -25,6 +25,11 @@ sudo docker run -d -v /sys/fs/cgroup:/sys/fs/cgroup:ro --privileged --name maas-
 fb36837cd68e56356cad2ad853ae517201ee3349fd1f80039185b71d052c5326
 `
 
+Region Bootstrap
+================
+
+The `scripts/create-provision-network.sh` script attempts to bootstrap both an admin user (with the password admin) but also creates a maas provisioning network matching the docker default, namely 172.16.86.0/24.  Turning this into a more configurable setting and also allowing for a dedicated provisioning network that can be plugged in via bridging to an actual physical network is a work in progress.  However, with the calls we do make you should be able to see the rack controller connected with an active dhcpd process running in the UI.
+
 Retrieving Region Controller Details
 ====================================
 
@@ -63,7 +68,7 @@ sudo docker inspect --format '{{ .NetworkSettings.Networks.bridge.IPAddress }}' 
 172.16.86.4
 `
 
-Link rack and region
+Link Rack and Region
 ====================
 
 Finally, with the output above we can link the region controller with the rack controller
@@ -74,4 +79,7 @@ will initiate an image sync with the rack.
 $ make register_rack -e URL=http://172.16.84.4 SECRET=2036ba7575697b03d73353fc72a01686
 sudo docker exec maas-rack-controller maas-rack register --url http://172.16.84.4 --secret 2036ba7575697b03d73353fc72a01686
 alan@hpdesktop:~/Workbench/att/attcomdev/dockerfiles/maas$ 
+
+Finally, to access your MaaS UI, visit http://172.0.0.1:7777/MAAS/ and login as admin/admin.
+
 `
