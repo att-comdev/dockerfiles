@@ -70,6 +70,8 @@ Finally, with the output above we can link the region controller with the rack c
 by feeding the rack controller the endpoint and secret it requires.  Shortly after MaaS
 will initiate an image sync with the rack.
 
+`
 $ make register_rack -e URL=http://172.16.84.4 SECRET=2036ba7575697b03d73353fc72a01686
 sudo docker exec maas-rack-controller maas-rack register --url http://172.16.84.4 --secret 2036ba7575697b03d73353fc72a01686
 alan@hpdesktop:~/Workbench/att/attcomdev/dockerfiles/maas$ 
+`
