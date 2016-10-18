@@ -1,5 +1,5 @@
-[![Docker Repository on Quay](https://quay.io/repository/attcomdev/maas-rack/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/maas-region): MaaS Region Controller <br>
-[![Docker Repository on Quay](https://quay.io/repository/attcomdev/maas-rack/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/maas-rack): MaaS Rack Controller
+[![Docker Repository on Quay](https://quay.io/repository/attcomdev/maas-rack/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/maas-region) MaaS Region Controller <br>
+[![Docker Repository on Quay](https://quay.io/repository/attcomdev/maas-rack/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/maas-rack) MaaS Rack Controller
 
 Overview
 ==================
