@@ -1,0 +1,11 @@
+[Unit]
+Description=Create Provisioning Network
+Requires=postgresql.service
+After=postgresql.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/create-provisioning-network.sh
+
+[Install]
+WantedBy=multi-user.target
