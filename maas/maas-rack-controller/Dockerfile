@@ -16,7 +16,12 @@ RUN systemctl set-default multi-user.target
 # everything else below is to setup maas into the systemd initialized
 # container based on ubuntu 16.04
 RUN apt-get -qq update && \
-    apt-get -y install sudo
+    apt-get -y install sudo software-properties-common
+
+# TODO(alanmeadows)
+# we need systemd 231 per https://github.com/systemd/systemd/commit/a1350640ba605cf5876b25abfee886488a33e50b
+RUN add-apt-repository ppa:pitti/systemd && apt-get update
+RUN apt-get install -y systemd 
 
 # install syslog and enable it
 RUN apt-get install -y rsyslog
@@ -24,6 +29,19 @@ RUN systemctl enable rsyslog.service
 
 # install maas
 RUN rsyslogd; apt-get install -y maas-cli maas-rack-controller
+
+COPY scripts/register-rack-controller.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/register-rack-controller.sh
+
+# register ourselves with the region controller
+COPY scripts/register-rack-controller.service /lib/systemd/system/register-rack-controller.service
+RUN systemctl enable register-rack-controller.service
+
+# apply patch from alanmeadows that helps deal with sophisticated host networks
+RUN apt-get install -y patch
+COPY scripts/rackd.patch /tmp/rackd.patch
+RUN cd /usr/lib/python3/dist-packages/provisioningserver/utils/ && patch -p2 < /tmp/rackd.patch
+
 
 # initalize systemd
 CMD ["/sbin/init"]

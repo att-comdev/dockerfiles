@@ -1,14 +1,33 @@
 .PHONY: build run_region run_rack get_region_api_key get_region_secret get_region_ip_address register_rack
 
 build:
-	sudo docker build -t "maas-rack:dockerfile" maas-rack-controller
-	sudo docker build -t "maas-region:dockerfile" maas-region-controller
+	sudo docker build -t "att/maas-rack:1.0" maas-rack-controller
+	sudo docker build -t "att/maas-region:1.0" maas-region-controller
+
+kuber_bridge:
+	sudo brctl addbr maas
+	sudo ifconfig maas up
+	sudo ifconfig maas inet 10.99.99.1 netmask 255.255.255.0
+
+kuber_build:
+	sudo docker build -t "att/maas-rack:1.0" maas-rack-controller
+	sudo docker build -t "att/maas-region:1.0" maas-region-controller
+
+kuber_clean:
+	sudo kubectl delete deployment maas-region
+	sudo kubectl delete deployment maas-rack
+	sudo kubectl delete service maas-region-ui
+
+kuber_deploy:
+	sudo kubectl create -f deployment/maas-service.yaml
+	sudo kubectl create -f deployment/maas-region-deployment.yaml
+	sudo kubectl create -f deployment/maas-rack-deployment.yaml
 
 run_region:
-	sudo docker run -d -p 7777:80 -v /sys/fs/cgroup:/sys/fs/cgroup:ro --privileged --name maas-region-controller maas-region:dockerfile
+	sudo docker run -d -p 7777:80 -v /sys/fs/cgroup:/sys/fs/cgroup:ro --privileged --name maas-region-controller att/maas-region:1.0
 
 run_rack:
-	sudo docker run -d -v /sys/fs/cgroup:/sys/fs/cgroup:ro --privileged --name maas-rack-controller maas-rack:dockerfile	
+	sudo docker run -d -v /sys/fs/cgroup:/sys/fs/cgroup:ro --privileged --name maas-rack-controller att/maas-rack:1.0
 
 get_region_api_key:
 	sudo docker exec maas-region-controller maas-region apikey --username admin
