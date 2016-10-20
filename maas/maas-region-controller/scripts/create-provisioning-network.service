@@ -5,6 +5,7 @@ After=postgresql.service
 
 [Service]
 Type=oneshot
+PassEnvironment=MAAS_REGION_UI_SERVICE_HOST
 ExecStart=/usr/local/bin/create-provisioning-network.sh
 
 [Install]
