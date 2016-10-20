@@ -29,10 +29,10 @@ do
 	# see if we can find > 0 images
 	if maas admin boot-resources read | grep -q '\[\]';
 	then
-		break
-	else
 		echo "Failed to download boot-resources, will try again..."
-		sleep 10;
+		sleep 10;		
+	else
+		break
 	fi;
 
 	# otherwise, we keep repeating until we see images
