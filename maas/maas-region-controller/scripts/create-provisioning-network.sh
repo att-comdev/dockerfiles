@@ -7,6 +7,10 @@ sleep 60
 cat /etc/maas/regiond.conf | grep -v maas_url > /tmp/regiond.conf
 echo "maas_url: http://${MAAS_REGION_UI_SERVICE_HOST}/MAAS" >> /tmp/regiond.conf
 mv /tmp/regiond.conf /etc/maas/regiond.conf
+systemctl restart maas-regiond
+
+# TODO(alanmeadows) wait a bit... can't we be a bit more sophisticated?
+sleep 30
 
 # create a key to talk to maas
 /usr/sbin/maas-region createadmin --username=admin --password=admin --email=support@nowhere.com
@@ -51,7 +55,7 @@ do
 			echo "Failed to create maas network, will try again..."
 			sleep 10
 		fi;
-		
+
 	else
 		echo "Failed to find 10.99.99.0 network, will try again..."
 		sleep 10
