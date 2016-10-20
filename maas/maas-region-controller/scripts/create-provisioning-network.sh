@@ -5,14 +5,14 @@ sleep 60
 
 # fix maas_url for booting agents so we use the k8s endpoint
 cat /etc/maas/regiond.conf | grep -v maas_url > /tmp/regiond.conf
-echo "http://${MAAS_REGION_UI_SERVICE_HOST}/MAAS" >> /tmp/regiond.conf
+echo "maas_url: http://${MAAS_REGION_UI_SERVICE_HOST}/MAAS" >> /tmp/regiond.conf
 mv /tmp/regiond.conf /etc/maas/regiond.conf
 
 # create a key to talk to maas
 /usr/sbin/maas-region createadmin --username=admin --password=admin --email=support@nowhere.com
 
 # establish a "session" so anyone can run "maas admin"
-KEY=$(maas-region-admin apikey --username=admin)
+KEY=$(maas-region apikey --username=admin)
 maas login admin http://127.0.0.1/MAAS/ $KEY
 
 # try continually to load images
@@ -50,7 +50,8 @@ do
 		else
 			echo "Failed to create maas network, will try again..."
 			sleep 10
-
+		fi;
+		
 	else
 		echo "Failed to find 10.99.99.0 network, will try again..."
 		sleep 10
