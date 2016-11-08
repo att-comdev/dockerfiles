@@ -30,7 +30,7 @@ do
 	if maas admin boot-resources read | grep -q '\[\]';
 	then
 		echo "Failed to download boot-resources, will try again..."
-		sleep 10;		
+		sleep 600;
 	else
 		break
 	fi;
