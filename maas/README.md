@@ -33,7 +33,7 @@ $ make kuber_deploy
 
 ```
 
-The provisioning network is fixed (and configured by kuber_bridge) as 10.99.99.0/24. To connect
+The provisioning network is fixed (and configured by kuber_bridge) as 10.7.200.0/24. To connect
 external physical hardware to this network, simply place the network interface into the maas bridge, e.g:
 
 ```
@@ -54,7 +54,7 @@ $ make kuber_clean
 ```
 
 Once the region controller comes up, and you can login as admin/admin, you must configure a gateway within the UI on the
-10.99.99.0 network, setting that to 10.99.99.1.  You must also enable DHCP and set the primary rack controller to the 
+10.7.200.0 network, setting that to 10.7.200.1.  You must also enable DHCP and set the primary rack controller to the 
 maas rack container booted (it will be a drop down choice).  This will eventually be automated.
 
 Running Containers

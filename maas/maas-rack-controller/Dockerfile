@@ -42,6 +42,11 @@ RUN apt-get install -y patch
 COPY scripts/rackd.patch /tmp/rackd.patch
 RUN cd /usr/lib/python3/dist-packages/provisioningserver/utils/ && patch -p2 < /tmp/rackd.patch
 
+# TODO(alanmeadows): proliant ipmi issue
+# https://bugs.launchpad.net/maas/+bug/1516065
+COPY scripts/ipmi.patch /tmp/ipmi.patch
+RUN cd /usr/lib/python3/dist-packages/provisioningserver/drivers/power && patch -p0 < /tmp/ipmi.patch
+
 
 # initalize systemd
 CMD ["/sbin/init"]
