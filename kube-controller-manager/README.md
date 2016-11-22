@@ -1,3 +1,5 @@
+[![Docker Repository on Quay](https://quay.io/repository/attcomdev/kube-controller-manager/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/kube-controller-manager)
+
 ### Ubuntu based kube-controller-manager with Ceph Tools
 
 This is a kube-controller-manager container, based on the kubernetes v1.5.0-beta.1 kube-controller-manager binary.
