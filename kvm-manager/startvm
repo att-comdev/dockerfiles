@@ -41,17 +41,17 @@ generate_cloud_drive()
 	then
 		return
 	fi
-	TMPDIR=`mktemp -d -t ranchervm.XXXXXX`
+	TMPDIR=`mktemp -d -t aicvm.XXXXXX`
 	if [ $? -ne 0 ]
 	then
 		echo Fail to create temporaily directory
 		exit 1
 	fi
 
-	if [ -f $metadata ];
+	if [ -f $metadata ]; then
 		cp $metadata $TMPDIR
 	fi
-	if [ -f $userdata ];
+	if [ -f $userdata ]; then
 		cp $userdata $TMPDIR
 	fi
 
