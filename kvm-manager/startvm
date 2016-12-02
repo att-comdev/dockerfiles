@@ -148,9 +148,14 @@ if [ -e /dev/vm/root ]; then
     KVM_BLK_OPTS="$KVM_RAW_BLK_OPTS"
     KVM_IMAGE=/dev/vm/root
 else
-    if [ ! -e "/base_image/${TARGET_IMG}" ]; then
-    echo "/base_image/${TARGET_IMG} does not exist.  Did you specify a TARGET_IMG environment variable?"
-    exit 1
+
+	if [ ! -d "/base_image" ]; then
+	echo "/base_image directory does not exist, failed to mount volume?"
+	fi
+
+    if [ ! -e "/base_image/${IMG_TARGET}" ]; then
+    	echo "Fetching missing image target"
+    	curl ${IMG_SOURCE} > /base_image/${IMG_TARGET}
     fi
 
     if [ ! -d "/image" ]; then
@@ -168,7 +173,7 @@ else
     	echo "Image ${KVM_IMAGE} already exists.  Not recreating"
 
     else
-        qemu-img create -f qcow2 -b /base_image/${TARGET_IMG} \
+        qemu-img create -f qcow2 -b /base_image/${IMG_TARGET} \
         $KVM_IMAGE > /dev/null
         if [[ $? -ne 0 ]]; then
             echo "Failed to create qcow2 image"
