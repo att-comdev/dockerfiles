@@ -246,5 +246,4 @@ if [ -d /vm ]; then
     echo VNC server will listen on Unix socket /vm/$DOCKERID/vnc
 fi
 
-modprobe kvm-intel
 exec $LAUNCHER qemu-system-x86_64 -enable-kvm  $VNC `eval echo $KVM_BLK_OPTS` `eval echo $KVM_NET_OPTS` -usbdevice tablet $KVM_ARGS
