@@ -224,6 +224,7 @@ EOF
 
     # Exec kvm as PID 1
 
+    mkdir -p /etc/qemu
     echo allow $BRIDGE_IFACE >  /etc/qemu/bridge.conf
 }
 
