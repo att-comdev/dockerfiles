@@ -68,12 +68,18 @@ generate_cloud_drive()
 
 # These two variables can be overwritten
 
+
+# Generate random new MAC address
+hexchars="0123456789ABCDEF"
+end=$( for i in {1..8} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/:\1/g' )
+NEWMAC=`echo 06:FE$end`
+
 : ${KVM_BLK_OPTS:="-drive file=\$KVM_IMAGE,if=none,id=drive-disk0,format=qcow2 \
 -device virtio-blk-pci,scsi=off,drive=drive-disk0,id=virtio-disk0,bootindex=1"}
 : ${KVM_RAW_BLK_OPTS:="-drive file=\$KVM_IMAGE,if=none,id=drive-disk0,format=raw \
 -device virtio-blk-pci,scsi=off,drive=drive-disk0,id=virtio-disk0,bootindex=1"}
 : ${KVM_NET_OPTS:="-netdev bridge,br=\$BRIDGE_IFACE,id=net0 \
--device virtio-net-pci,netdev=net0,mac=\$MAC"}
+-device virtio-net-pci,netdev=net0,mac=\$NEWMAC"}
 
 # For debugging
 if [ "$1" = "bash" ]; then
@@ -172,20 +178,31 @@ setup_tap() {
 }
 
 setup_bridge_networking() {
+
     MAC=`ip addr show $IFACE | grep ether | sed -e 's/^[[:space:]]*//g' -e 's/[[:space:]]*\$//g' | cut -f2 -d ' '`
-    IP=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f1 -d/`
-    CIDR=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f2 -d/`
-    NETMASK=`cidr2mask $CIDR`
-    GATEWAY=`ip route get 8.8.8.8 | grep via | cut -f3 -d ' '`
+    HOSTIP=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f1 -d/`
+    HOSTCIDR=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f2 -d/`
+    HOSTNETMASK=`cidr2mask $CIDR`
+    HOSTGATEWAY=`ip route get 8.8.8.8 | grep via | cut -f3 -d ' '`
     NAMESERVER=( `grep nameserver /etc/resolv.conf | grep -v "#" | cut -f2 -d ' '` )
     NAMESERVERS=`echo ${NAMESERVER[*]} | sed "s/ /,/"`
+	
+	VMIP=192.168.254.2
+	VMGW=192.168.254.1
+	VMNETMASK=255.255.255.252
+
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+	iptables -t nat -A PREROUTING -d $IP -j DNAT --to-destination $VMIP
+	iptables -t nat -A POSTROUTING -s $VMIP -j SNAT --to-source $IP
+
+    # generate VM specifics
 
     cat > /etc/dnsmasq.conf << EOF
 user=root
-dhcp-range=$IP,$IP
-dhcp-host=$MAC,$HOSTNAME,$IP,infinite
-dhcp-option=option:router,$GATEWAY
-dhcp-option=option:netmask,$NETMASK
+dhcp-range=$VMIP,$VMIP
+dhcp-host=$NEWMAC,$HOSTNAME,$VMIP,infinite
+dhcp-option=option:router,$VMGW
+dhcp-option=option:netmask,$VMNETMASK
 dhcp-option=option:dns-server,$NAMESERVERS
 EOF
 
@@ -193,29 +210,15 @@ EOF
         dnsmasq
     fi
 
-    # Generate random new MAC address
-    hexchars="0123456789ABCDEF"
-    end=$( for i in {1..8} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/:\1/g' )
-    NEWMAC=`echo 06:FE$end`
-
-    let "NEWCIDR=$CIDR-1"
-    #NEWNETMASK=`cidr2mask $NEWCIDR`
-
-    i=`atoi $IP`
-    let "i=$i^(1<<$CIDR)"
-    NEWIP=`itoa i`
-
-    ip link set dev $IFACE down
-    ip link set $IFACE address $NEWMAC
-    ip addr del $IP/$CIDR dev $IFACE
-
     brctl addbr $BRIDGE_IFACE
-    brctl addif $BRIDGE_IFACE $IFACE
-    ip link set dev $IFACE up
     ip link set dev $BRIDGE_IFACE up
-    if [ -z $NO_DHCP ]; then
-        ip addr add $NEWIP/$NEWCIDR dev $BRIDGE_IFACE
-    fi
+    ip addr add $VMGW/30 dev $BRIDGE_IFACE
+
+    # alanmeadows(NOTE) in many implementations with out of 
+    # subnet gateways the dhcp approach does not work
+    # if [ -z $NO_DHCP ]; then    	
+    #     ip addr add $NEWIP/$NEWCIDR dev $BRIDGE_IFACE
+    # fi
 
     if [[ $? -ne 0 ]]; then
         echo "Failed to bring up network bridge"
@@ -238,15 +241,6 @@ fi
 setup_bridge_networking
 
 
-# If /vm does not exist, we still proceed with running KVM. We just
-# won't get a VNC console socket.
-if [ -d /vm ]; then
-    DOCKERID=`cat /proc/self/cgroup | grep docker | awk -F/ '{print $NF}' | cut -f 2 -d - | cut -f 1 -d . | head -1`
-    mkdir -p /vm/$DOCKERID
-    VNC="-vnc unix:/vm/$DOCKERID/vnc"
-    echo VNC server will listen on Unix socket /vm/$DOCKERID/vnc
-else
-	VNC="-nographic"
-fi
+VNC="-vnc $IP:0"
 
 exec $LAUNCHER qemu-system-x86_64 -enable-kvm  $VNC `eval echo $KVM_BLK_OPTS` `eval echo $KVM_NET_OPTS` -usbdevice tablet -nographic $KVM_ARGS
