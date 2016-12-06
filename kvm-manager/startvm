@@ -26,12 +26,12 @@ generate_cloud_drive()
 {
 
 
-	metadata=/meta-data
+	metadata=/metadata
 	if [ ! -f $metadata ]
 	then
 		metadata=""
 	fi
-	userdata=/user-data
+	userdata=/userdata
 	if [ ! -f $userdata ]
 	then
 		userdata=""
@@ -49,10 +49,10 @@ generate_cloud_drive()
 	fi
 
 	if [ -f $metadata ]; then
-		cp $metadata $TMPDIR
+		cp $metadata $TMPDIR/meta-data
 	fi
 	if [ -f $userdata ]; then
-		cp $userdata $TMPDIR
+		cp $userdata $TMPDIR/user-data
 	fi
 
 	iso="cloud-drive.iso"
@@ -66,20 +66,27 @@ generate_cloud_drive()
 	echo $iso
 }
 
-# These two variables can be overwritten
-
-
 # Generate random new MAC address
 hexchars="0123456789ABCDEF"
 end=$( for i in {1..8} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/:\1/g' )
 NEWMAC=`echo 06:FE$end`
 
+# These two variables can be overwritten
 : ${KVM_BLK_OPTS:="-drive file=\$KVM_IMAGE,if=none,id=drive-disk0,format=qcow2 \
 -device virtio-blk-pci,scsi=off,drive=drive-disk0,id=virtio-disk0,bootindex=1"}
 : ${KVM_RAW_BLK_OPTS:="-drive file=\$KVM_IMAGE,if=none,id=drive-disk0,format=raw \
 -device virtio-blk-pci,scsi=off,drive=drive-disk0,id=virtio-disk0,bootindex=1"}
 : ${KVM_NET_OPTS:="-netdev bridge,br=\$BRIDGE_IFACE,id=net0 \
 -device virtio-net-pci,netdev=net0,mac=\$NEWMAC"}
+ 
+# define some valeus for the VM side of the networking but
+# allow them to be overriden by the operator
+: ${VM_IP:="192.168.254.2"}
+: ${VM_GW:="192.168.254.1"}
+
+# the netmask is not definable, as we leverage
+# /30 elsewhere
+VM_NETMASK="255.255.255.252"
 
 # For debugging
 if [ "$1" = "bash" ]; then
@@ -99,14 +106,23 @@ if [ -e /dev/vm/root ]; then
     KVM_IMAGE=/dev/vm/root
 else
 
-	if [ ! -d "/base_image" ]; then
-	echo "/base_image directory does not exist, failed to mount volume?"
-	fi
+	if [ -e "${IMG_TARGET}" ]; then
+		BASE=${IMG_TARGET}
 
-    if [ ! -e "/base_image/${IMG_TARGET}" ]; then
-    	echo "Fetching missing image target"
-    	curl ${IMG_SOURCE} > /base_image/${IMG_TARGET}
-    fi
+	else
+
+		if [ ! -d "/base_image" ]; then
+		echo "/base_image directory does not exist, failed to mount volume?"
+		fi
+
+	    if [ ! -e "/base_image/${IMG_TARGET}" ]; then
+	    	echo "Fetching missing image target"
+	    	curl ${IMG_SOURCE} > /base_image/${IMG_TARGET}
+	    fi
+
+	    BASE=/base_image/${IMG_TARGET}
+
+	fi
 
     if [ ! -d "/image" ]; then
     echo "/image directory does not exist, failed to mount volume /image?"
@@ -123,7 +139,7 @@ else
     	echo "Image ${KVM_IMAGE} already exists.  Not recreating"
 
     else
-        qemu-img create -f qcow2 -b /base_image/${IMG_TARGET} \
+        qemu-img create -f qcow2 -b ${BASE} \
         $KVM_IMAGE > /dev/null
         if [[ $? -ne 0 ]]; then
             echo "Failed to create qcow2 image"
@@ -170,40 +186,42 @@ cidr2mask() {
   echo $mask
 }
 
-setup_tap() {
-    MAC=`ip addr show $IFACE | grep ether | sed -e 's/^[[:space:]]*//g' -e 's/[[:space:]]*\$//g' | cut -f2 -d ' '`
-    ip link set dev eth0 down
-    LAUNCHER="tapclient --"
-    KVM_NET_OPTS="-netdev tap,fd=%FD%,id=hostnet0 -device virtio-net-pci,netdev=hostnet0,id=net0,mac=$MAC"
-}
-
 setup_bridge_networking() {
 
     MAC=`ip addr show $IFACE | grep ether | sed -e 's/^[[:space:]]*//g' -e 's/[[:space:]]*\$//g' | cut -f2 -d ' '`
-    HOSTIP=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f1 -d/`
-    HOSTCIDR=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f2 -d/`
-    HOSTNETMASK=`cidr2mask $CIDR`
-    HOSTGATEWAY=`ip route get 8.8.8.8 | grep via | cut -f3 -d ' '`
-    NAMESERVER=( `grep nameserver /etc/resolv.conf | grep -v "#" | cut -f2 -d ' '` )
+    HOST_IP=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f1 -d/`
+    HOST_CIDR=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f2 -d/`
+    HOST_NETMASK=`cidr2mask $HOST_CIDR`
+    HOST_GATEWAY=`ip route get 8.8.8.8 | grep via | cut -f3 -d ' '`
     NAMESERVERS=`echo ${NAMESERVER[*]} | sed "s/ /,/"`
-	
-	VMIP=192.168.254.2
-	VMGW=192.168.254.1
-	VMNETMASK=255.255.255.252
+    SEARCH=( `grep -E ^search /etc/resolv.conf | grep -v "#" | cut -f2- -d ' ' | tr ' ' ','` ) 
 
+    # we must enable forwarding inside the container
 	echo 1 > /proc/sys/net/ipv4/ip_forward
-	iptables -t nat -A PREROUTING -d $IP -j DNAT --to-destination $VMIP
-	iptables -t nat -A POSTROUTING -s $VMIP -j SNAT --to-source $IP
+
+	# we support exposing port 5900 on the container but leave
+	# it up to the operator on whether to expose this - they can
+	# specify NO_VNC as an environment variable to disable this
+	# functionality
+	if [ -z $NO_VNC ]; then
+   		iptables -t nat -A PREROUTING -p tcp \! --dport 5900 -d $HOST_IP -j DNAT --to-destination $VM_IP
+   		iptables -t nat -A PREROUTING \! -p tcp -d $HOST_IP -j DNAT --to-destination $VM_IP
+   	else
+		iptables -t nat -A PREROUTING -d $HOST_IP -j DNAT --to-destination $VM_IP
+		iptables -t nat -A POSTROUTING -s $VM_IP -j SNAT --to-source $HOST_IP
+	fi
 
     # generate VM specifics
 
     cat > /etc/dnsmasq.conf << EOF
 user=root
-dhcp-range=$VMIP,$VMIP
-dhcp-host=$NEWMAC,$HOSTNAME,$VMIP,infinite
-dhcp-option=option:router,$VMGW
-dhcp-option=option:netmask,$VMNETMASK
+dhcp-range=$VM_IP,$VM_IP
+dhcp-host=$NEWMAC,$HOSTNAME,$VM_IP,infinite
+dhcp-option=option:host-name,$HOSTNAME
+dhcp-option=option:router,$VM_GW
+dhcp-option=option:netmask,$VM_NETMASK
 dhcp-option=option:dns-server,$NAMESERVERS
+dhcp-option=119,$SEARCH
 EOF
 
     if [ -z $NO_DHCP ]; then
@@ -212,7 +230,7 @@ EOF
 
     brctl addbr $BRIDGE_IFACE
     ip link set dev $BRIDGE_IFACE up
-    ip addr add $VMGW/30 dev $BRIDGE_IFACE
+    ip addr add $VM_GW/30 dev $BRIDGE_IFACE
 
     # alanmeadows(NOTE) in many implementations with out of 
     # subnet gateways the dhcp approach does not work
@@ -240,7 +258,7 @@ fi
 
 setup_bridge_networking
 
-HOSTIP=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f1 -d/`
-VNC="-vnc $HOSTIP:0"
+HOST_IP=`ip addr show dev $IFACE | grep "inet $IP" | awk '{print $2}' | cut -f1 -d/`
+VNC="-vnc $HOST_IP:0"
 
 exec $LAUNCHER qemu-system-x86_64 -enable-kvm  $VNC `eval echo $KVM_BLK_OPTS` `eval echo $KVM_NET_OPTS` -usbdevice tablet -nographic $KVM_ARGS
