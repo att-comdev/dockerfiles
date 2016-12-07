@@ -111,16 +111,17 @@ else
 
 	else
 
-		if [ ! -d "/base_image" ]; then
-		echo "/base_image directory does not exist, failed to mount volume?"
+		if [ ! -d "/image" ]; then
+		echo "/image directory does not exist, failed to mount volume?"
+		exit 2
 		fi
 
-	    if [ ! -e "/base_image/${IMG_TARGET}" ]; then
+	    if [ ! -e "/image/${IMG_TARGET}" ]; then
 	    	echo "Fetching missing image target"
-	    	curl ${IMG_SOURCE} > /base_image/${IMG_TARGET}
+	    	curl ${IMG_SOURCE} > /image/${IMG_TARGET}
 	    fi
 
-	    BASE=/base_image/${IMG_TARGET}
+	    BASE=/image/${IMG_TARGET}
 
 	fi
 
