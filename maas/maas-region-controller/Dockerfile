@@ -20,15 +20,15 @@ RUN apt-get -qq update && \
 
 # TODO(alanmeadows)
 # we need systemd 231 per https://github.com/systemd/systemd/commit/a1350640ba605cf5876b25abfee886488a33e50b
-RUN add-apt-repository ppa:pitti/systemd && apt-get update
-RUN apt-get install -y systemd 
+RUN add-apt-repository ppa:pitti/systemd && add-apt-repository ppa:maas/stable && apt-get update
+RUN apt-get install -y systemd
 
 # install syslog and enable it
 RUN apt-get install -y rsyslog
 RUN systemctl enable rsyslog.service
 
 # install maas
-RUN rsyslogd; apt-get install -y maas-cli maas-region-controller 
+RUN rsyslogd; apt-get install -y maas-cli maas-region-controller
 
 # potentially used to calculate cidrs
 RUN apt-get install -y python3-pip
@@ -38,7 +38,7 @@ COPY scripts/create-provisioning-network.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/create-provisioning-network.sh
 
 # we'll create a service which will help create our
-# provisioning network when the maas API 
+# provisioning network when the maas API
 # gets instantiated
 COPY scripts/create-provisioning-network.service /lib/systemd/system/create-provisioning-network.service
 RUN systemctl enable create-provisioning-network.service
