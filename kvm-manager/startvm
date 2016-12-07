@@ -42,7 +42,6 @@ generate_cloud_drive()
 		return
 	fi
 	TMPDIR=`mktemp -d -t aicvm.XXXXXX`
-	mkdir -p mkdir -p ${TMPDIR}/openstack/latest
 
 	if [ $? -ne 0 ]
 	then
@@ -50,16 +49,21 @@ generate_cloud_drive()
 		exit 1
 	fi
 
+	# create form of config drive
+	mkdir -p ${TMPDIR}/openstack/2012-08-10
+	cd ${TMPDIR}/openstack
+	ln -s 2012-08-10 latest
+
+
 	if [ -f $metadata ]; then
-		cp $metadata $TMPDIR/openstack/latest/meta_data.json
+		cp $metadata $TMPDIR/openstack/2012-08-10/meta_data.json
 	fi
 	if [ -f $userdata ]; then
-		cp $userdata $TMPDIR/openstack/latest/user_data
+		cp $userdata $TMPDIR/openstack/2012-08-10/user_data
 	fi
 
 	iso="cloud-drive.iso"
-	genisoimage -allow-lowercase -allow-multidot -J -l -ldots -o $iso \
-		    -publisher AIC -quiet -r -V config-2 $TMPDIR
+	mkisofs -R -V config-2 -o $iso ${TMPDIR}
 	if [ $? -ne 0 ]
 	then
 		echo Fail to create cloud-drive ISO image for cloud-init
