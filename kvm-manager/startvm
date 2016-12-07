@@ -42,6 +42,8 @@ generate_cloud_drive()
 		return
 	fi
 	TMPDIR=`mktemp -d -t aicvm.XXXXXX`
+	mkdir -p mkdir -p ${TMPDIR}/openstack/latest
+
 	if [ $? -ne 0 ]
 	then
 		echo Fail to create temporaily directory
@@ -49,10 +51,10 @@ generate_cloud_drive()
 	fi
 
 	if [ -f $metadata ]; then
-		cp $metadata $TMPDIR/meta-data
+		cp $metadata $TMPDIR/openstack/latest/meta_data.json
 	fi
 	if [ -f $userdata ]; then
-		cp $userdata $TMPDIR/user-data
+		cp $userdata $TMPDIR/openstack/latest/user_data
 	fi
 
 	iso="cloud-drive.iso"
