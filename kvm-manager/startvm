@@ -217,7 +217,6 @@ setup_bridge_networking() {
 user=root
 dhcp-range=$VM_IP,$VM_IP
 dhcp-host=$NEWMAC,$HOSTNAME,$VM_IP,infinite
-dhcp-option=option:host-name,$HOSTNAME
 dhcp-option=option:router,$VM_GW
 dhcp-option=option:netmask,$VM_NETMASK
 dhcp-option=option:dns-server,$NAMESERVERS
