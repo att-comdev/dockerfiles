@@ -51,15 +51,17 @@ generate_cloud_drive()
 
 	# create form of config drive
 	mkdir -p ${TMPDIR}/openstack/2012-08-10
+	OLD_PWD=$(PWD)
 	cd ${TMPDIR}/openstack
 	ln -s 2012-08-10 latest
+	cd $OLD_PWD
 
 
 	if [ -f $metadata ]; then
-		cp $metadata $TMPDIR/openstack/2012-08-10/meta_data.json
+		cp $metadata ${TMPDIR}/openstack/2012-08-10/meta_data.json
 	fi
 	if [ -f $userdata ]; then
-		cp $userdata $TMPDIR/openstack/2012-08-10/user_data
+		cp $userdata ${TMPDIR}/openstack/2012-08-10/user_data
 	fi
 
 	iso="cloud-drive.iso"
