@@ -20,7 +20,7 @@ RUN apt-get -qq update && \
 
 # TODO(alanmeadows)
 # we need systemd 231 per https://github.com/systemd/systemd/commit/a1350640ba605cf5876b25abfee886488a33e50b
-RUN add-apt-repository ppa:pitti/systemd && add-apt-repository ppa:maas/stable && apt-get update
+RUN add-apt-repository ppa:pitti/systemd -y && add-apt-repository ppa:maas/stable -y && apt-get update
 RUN apt-get install -y systemd
 
 # install syslog and enable it
