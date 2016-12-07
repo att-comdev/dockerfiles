@@ -51,7 +51,7 @@ generate_cloud_drive()
 
 	# create form of config drive
 	mkdir -p ${TMPDIR}/openstack/2012-08-10
-	OLD_PWD=$(PWD)
+	OLD_PWD=$PWD
 	cd ${TMPDIR}/openstack
 	ln -s 2012-08-10 latest
 	cd $OLD_PWD
