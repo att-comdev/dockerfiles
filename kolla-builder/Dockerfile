@@ -5,10 +5,13 @@ MAINTAINER bjozsa@att.com
 ENV KOLLA_BASE=ubuntu \
     KOLLA_TYPE=source \
     KOLLA_TAG=3.0.1 \
+    KOLLA_PROJECT=keystone \
     KOLLA_NAMESPACE=kolla \
     KOLLA_VERSION=3.0.1 \
+    DOCKER_USER=docker-user \
+    DOCKER_PASS=docker-pass \
+    DOCKER_REGISTRY=quay.io \
     DEBIAN_FRONTEND=noninteractive
-
 
 RUN apt-get update && \
     apt-get install -y \
