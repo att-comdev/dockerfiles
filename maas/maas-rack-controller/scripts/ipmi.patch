@@ -1,0 +1,17 @@
+--- ./ipmi.py	2016-08-18 11:27:24.000000000 +0000
++++ /tmp/ipmi.py	2016-11-07 22:30:42.634216864 +0000
+@@ -240,10 +240,11 @@
+         ipmi_chassis_config_command.append('--commit')
+         ipmipower_command.extend(common_args)
+ 
++        # alanmeadows: this had to be done due to https://bugs.launchpad.net/maas/+bug/1516065
+         # Before changing state run the chassis config command.
+-        if power_change in ("on", "off"):
+-            self._issue_ipmi_chassis_config_command(
+-                ipmi_chassis_config_command, power_change, power_address)
++        #if power_change in ("on", "off"):
++        #    self._issue_ipmi_chassis_config_command(
++        #        ipmi_chassis_config_command, power_change, power_address)
+ 
+         # Additional arguments for the power command.
+         if power_change == 'on':

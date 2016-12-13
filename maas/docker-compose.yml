@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+
+  region-controller:
+    container_name: maas-region-controller
+    #env_file: ./region/.env
+    build: 
+      context: ./maas-region-controller
+    privileged: true
+    ports:
+      - "5240:5240"
+      - "69:69/udp"
+      - "53:53"
+    networks:
+      - maas-region
+
+
+  rack-controller:
+    build: 
+      context: ./maas-rack-controller
+    container_name: maas-rack-controller
+    privileged: true
+    ports:
+      - "67:67/udp"
+    networks:
+      - maas-region
+    links:
+      - region-controller
+    depends_on:
+      - region-controller
+
+
+networks:
+  maas-region:
+    driver: bridge
+

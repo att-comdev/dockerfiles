@@ -1,0 +1,12 @@
+--- /tmp/network.py	2016-10-18 18:31:59.220726637 -0700
++++ /tmp/network_new.py	2016-10-18 18:32:44.476409586 -0700
+@@ -785,7 +785,8 @@
+         ip_addr = IPNetwork(link["address"])
+         cidr = str(ip_addr.cidr)
+         if cidr in iproute_info:
+-            link["gateway"] = iproute_info[cidr]["via"]
++            if 'via' in iproute_info[cidr]:
++                link["gateway"] = iproute_info[cidr][via]
+         elif ("default" in iproute_info and
+                 IPAddress(iproute_info["default"]["via"]) in ip_addr):
+             link["gateway"] = iproute_info["default"]["via"]

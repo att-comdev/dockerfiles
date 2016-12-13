@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudinit
+data:
+  metadata: |
+    { "uuid": "ubuntu-14-vm.mydomain.com" }
+  userdata: |
+    #cloud-config
+    fqdn: ubuntu-14-vm.mydomain.com
+    users:
+      - name: root
+        ssh-authorized-keys:
+          - {{ .Values.auth.ssh_key }}
+    ssh_pwauth: True
+    runcmd:
+     - [ apt-get, update ]
+     - [ apt-get, install, -y, --force-yes, apache2 ]
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ubuntu-14-vm
+  annotations:
+    {{ .Values.volume.class_path }}: {{ .Values.volume.class_name }}  
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: {{ .Values.volume.size }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kvm-manager
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kvm-manager
+      annotations:
+        pod.beta.kubernetes.io/hostname: ubuntu-14-vm   
+    spec:
+      nodeSelector:
+        {{ .Values.labels.node_selector_key }}: {{ .Values.labels.node_selector_value }}
+      containers:
+        - name: ubuntu-14-vm
+          image: {{ .Values.images.kvm_manager }}
+          imagePullPolicy: Always
+          hostIPC: true
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+          env:
+            - name: IMG_SOURCE
+              value: https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
+            - name: IMG_TARGET
+              value: ubuntu-14.04-amd64.img
+          command: 
+            - /usr/local/bin/startvm            
+          ports:
+            - containerPort: {{ .Values.network.port }}
+            - containerPort: {{ .Values.network.vnc }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.network.vnc }}
+          volumeMounts:
+            - name: image
+              mountPath: /image
+            - name: dev
+              mountPath: /dev
+            - name: sys
+              mountPath: /sys
+            - name: cloudinit
+              mountPath: /userdata
+              subPath: userdata
+            - name: cloudinit
+              mountPath: /metadata
+              subPath: metadata
+      volumes:
+        - name: image
+          persistentVolumeClaim:
+            claimName: ubuntu-14-vm
+        - name: dev
+          hostPath:
+              path: /dev
+        - name: sys
+          hostPath:
+              path: /sys
+        - name: cloudinit
+          configMap:
+            name: cloudinit
+            items:
+            - key: userdata
+              path: userdata
+            - key: metadata
+              path: metadata
+
