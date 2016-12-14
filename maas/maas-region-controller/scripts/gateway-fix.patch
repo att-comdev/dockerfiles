@@ -1,0 +1,22 @@
+--- /tmp/node.py	2016-12-13 18:15:35.957827277 +0000
++++ /usr/lib/python3/dist-packages/maasserver/models/node.py	2016-12-13 17:56:23.346482268 +0000
+@@ -2876,13 +2876,17 @@
+
+         # Try first to use DNS servers from default gateway subnets.
+         if ipv4 and gateways.ipv4 is not None:
+-            subnet = Subnet.objects.get(id=gateways.ipv4.subnet_id)
++            #subnet = Subnet.objects.get(id=gateways.ipv4.subnet_id)
++            #alanmeadows(NOTE): fix bug
++            subnet = Subnet.objects.get(id=gateways.ipv4[1])
+             if subnet.dns_servers is not None and len(subnet.dns_servers) > 0:
+                 # An IPv4 subnet is hosting the default gateway and has DNS
+                 # servers defined. IPv4 DNS servers take first-priority.
+                 return subnet.dns_servers
+         if ipv6 and gateways.ipv6 is not None:
+-            subnet = Subnet.objects.get(id=gateways.ipv6.subnet_id)
++            #subnet = Subnet.objects.get(id=gateways.ipv6.subnet_id)
++            #alanmeadows(NOTE): fix bug
++            subnet = Subnet.objects.get(id=gateways.ipv6[1])
+             if subnet.dns_servers is not None and len(subnet.dns_servers) > 0:
+                 # An IPv6 subnet is hosting the default gateway and has DNS
+                 # servers defined. IPv6 DNS servers take second-priority.
