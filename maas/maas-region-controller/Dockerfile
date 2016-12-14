@@ -43,10 +43,6 @@ RUN chmod +x /usr/local/bin/create-provisioning-network.sh
 COPY scripts/create-provisioning-network.service /lib/systemd/system/create-provisioning-network.service
 RUN systemctl enable create-provisioning-network.service
 
-# Fix for the gateway change bug in MAAS regiond version 2.1 from (alanmeadows)
-COPY scripts/gateway-fix.patch /tmp/gateway-fix.patch
-RUN cd /usr/lib/python3/dist-packages/maasserver/models/ && patch -p2 < /tmp/gateway-fix.patch
-
 # specify a static secret so we can register controllers
 # without having to pull the uniquely generated one
 # from this - note the secret must be a valid
