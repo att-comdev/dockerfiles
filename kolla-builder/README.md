@@ -11,7 +11,7 @@ After CI tests pass, a Jenkins pipeline process will be used to deploy/upgrade t
 Disclaimer: I would recommend not trying this in production. This is just for demonstration purposes. It's quite 'hacky'.
 
 # Instructions
-Please have a look at the Dockerfile. We're building off of the "Docker-in-Docker" ("dind") concepts that Jenins and many others use. In this case, we're building containers from the Kolla project (which could be subject to change). The variables work like this:
+Please have a look at the Dockerfile. We're building off of the "Docker-in-Docker" ("dind") concepts that Jenkins and many others use. In this case, we're building containers from the Kolla project (which could be subject to change). The variables work like this:
 
 ```
 docker run -d --privileged \
