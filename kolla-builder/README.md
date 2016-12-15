@@ -4,7 +4,7 @@
 # Overview
 This container is a bit of an odd duck. We're using this franken-tainer, along with our Openstack-Helm project to demonstrate that we can commit code changes to something like Keystone (upstream in Openstack Garrit), immediately pull in and build these changes for our environment, and kick off this build process from within our Kubernetes deployment. 
 
-Nothing new here for most, except that our test does not use Jenkins or [on the other end] any manual steps to perform the initial `kolla-build` process. We're simply using a purpose-built container to build our Kolla images. Once built, this franken-tainer will push these artifacts to our public container registry where they will be scanned for CVE's via Clair/Quay, versioning information will be committed, and CI will be performed via webhook (in this case Jenkins, installed via Helm; which is an important consideration).
+Nothing new here for most, except that our test does not use Jenkins or [on the other end] any manual steps to perform the initial `kolla-build` process. We're simply using a purpose-built container to build our Kolla images. Once built, this franken-tainer will push the resulting artifacts to our public container registry where they will be scanned for CVE's via Clair/Quay, versioning information will be committed, and CI will be performed via webhook (in this case Jenkins, installed via Helm; which is an important consideration).
 
 After CI tests pass, a Jenkins pipeline process will be used to deploy/upgrade the PoC, and thus our demonstration is complete.
 
