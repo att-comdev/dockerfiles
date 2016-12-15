@@ -40,6 +40,8 @@ RUN apt-get update && \
         curl \
         docker.io
 
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY scripts/wrapdocker /usr/local/bin/wrapdocker
 COPY scripts/clean.sh /usr/local/bin/clean.sh
