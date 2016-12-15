@@ -28,8 +28,8 @@ quay.io/attcomdev/kolla-builder:latest
 ```
 
 # Kubernetes
-But the above practice is too easy. If you want to use it, that's completely fine (it will work). We've added `CMD` as opposed to `ENTRYPOINT` so you can decide if you want to manually build Kolla images for yourself from within the container Just make sure to explore the `usr/local/bin/entrypoint.sh` this command directly.
+But the above practice rather easy. If you want to use it manually and as prescribed above, it will work just fine. We intended this to be flexible. We added `CMD` as opposed to `ENTRYPOINT` so you can manually build Kolla images for yourself using the container directly, or so developers can push/call their own builds when needed. Just make sure to explore the `usr/local/bin/entrypoint.sh` command, as it will clear images and enter an `exec bash` for container logging purposes in daemon-mode (running in Kubernetes). 
 
-Our goal is to run this from within the Kubernetes deployment. Building upon what the Helm community has already graciously provided us, we used Helm to install `stable/jenkins`. The Kuberntes cloud options are already baked in for convenience, which makes things incredibly easy for us. A Kubernetes manifest will be available soon for this purpose.
+Our real goal is to run this from within the Kubernetes deployment. Building upon what the Helm community has already graciously provided us, we used Helm to install `stable/jenkins`. The Kuberntes cloud options are already baked in for convenience, which makes things incredibly easy for us. A Kubernetes manifest will be available soon for this purpose.
 
 Happy hacking!
