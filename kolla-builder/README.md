@@ -2,12 +2,16 @@
 [![Docker Repository on Quay](https://quay.io/repository/attcomdev/kolla-builder/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/kolla-builder)
 
 # Overview
-This container is a bit of an odd duck. We're using this franken-tainer along with our Openstack-Helm project to demonstrate that we can commit code changes to something like Keystone (upstream in Openstack Garrit) and immeadiately pull in and build these changes into our environment, and kick of that build process in our Kubernetes deployment. From there (and once built), these built artifacts will be pushed to our upstream container registry, and immeadiately pulled into CI; which happens to be Jenkins, deployed via Helm...on this same very Kubernetes cluster. Once CI tests pass, these containers are prepped for upgrading our Openstack deployment which lives on...you guessed it...this Kubernetes cluster.
+This container is a bit of an odd duck. We're using this franken-tainer, along with our Openstack-Helm project to demonstrate that we can commit code changes to something like Keystone (upstream in Openstack Garrit), immediately pull in and build these changes for our environment, and kick off this build process from within our Kubernetes deployment. 
 
-Disclaimer: I would recommend not trying this in production. This is just for demonstration purposes.
+Nothing new here for most, except that our test does not use Jenkins or [on the other end] any manual steps to perform the initial `kolla-build` process. We're simply using a purpose-built container to build our Kolla images. Once built, this franken-tainer will push these artifacts to our public container registry where they will be scanned for CVE's via Clair/Quay, versioning information will be committed, and CI will be performed via webhook (in this case Jenkins, installed via Helm; which is an important consideration).
+
+After CI tests pass, a Jenkins pipeline process will be used to deploy/upgrade the PoC, and thus our demonstration is complete.
+
+Disclaimer: I would recommend not trying this in production. This is just for demonstration purposes. It's quite 'hacky'.
 
 # Instructions
-Please have a look at the Dockerfile. We're building off of the "dind" concepts that Jenins and many others use. In this case, we're building containers from the Kolla project (which could be subject to change). The variables work like this:
+Please have a look at the Dockerfile. We're building off of the "Docker-in-Docker" ("dind") concepts that Jenins and many others use. In this case, we're building containers from the Kolla project (which could be subject to change). The variables work like this:
 
 ```
 docker run -d --privileged \
@@ -24,8 +28,8 @@ quay.io/attcomdev/kolla-builder:latest
 ```
 
 # Kubernetes
-But the above practice is too easy. If you want to use it, that's completely fine (it will work). We've added `CMD` as opposed to `ENTRYPOINT` so you can decided if you want to run manually build Kolla images for yourself from within the container, just make sure to explore the `usr/local/bin/entrypoint.sh` before running it directly.
+But the above practice is too easy. If you want to use it, that's completely fine (it will work). We've added `CMD` as opposed to `ENTRYPOINT` so you can decide if you want to manually build Kolla images for yourself from within the container Just make sure to explore the `usr/local/bin/entrypoint.sh` this command directly.
 
-Our goal is to run this from within Kubernetes. Building upon what Helm has apready graciously provided the community, if we used Helm to install `stable/jenkins`, the Kuberntes cloud options are already built in. A Kubernetes manifest, will be available soon for this purpose.
+Our goal is to run this from within the Kubernetes deployment. Building upon what the Helm community has already graciously provided us, we used Helm to install `stable/jenkins`. The Kuberntes cloud options are already baked in for convenience, which makes things incredibly easy for us. A Kubernetes manifest will be available soon for this purpose.
 
 Happy hacking!
