@@ -44,11 +44,13 @@ COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY scripts/wrapdocker /usr/local/bin/wrapdocker
 COPY scripts/clean.sh /usr/local/bin/clean.sh
 COPY scripts/supervisord.conf /etc/supervisor/conf.d/wrapdocker.conf
+COPY scripts/kolla-push.sh /usr/local/bin/kolla-push.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
     chmod +x /usr/local/bin/wrapdocker && \
     chmod +x /usr/local/bin/clean.sh && \
-    chmod +x /etc/supervisor/conf.d/wrapdocker.conf
+    chmod +x /etc/supervisor/conf.d/wrapdocker.conf && \
+    chmod +x /usr/local/bin/kolla-push.sh
 
 WORKDIR /root
 
@@ -67,8 +69,9 @@ RUN mkdir -p .venv && \
     crudini --set /etc/kolla/kolla-build.conf DEFAULT base $KOLLA_BASE && \
     crudini --set /etc/kolla/kolla-build.conf DEFAULT install_type $KOLLA_TYPE && \
     crudini --set /etc/kolla/kolla-build.conf DEFAULT threads 1 && \
-    crudini --set /etc/kolla/kolla-build.conf DEFAULT namespace $KOLLA_NAMESPACE
+    crudini --set /etc/kolla/kolla-build.conf DEFAULT namespace $KOLLA_NAMESPACE && \
+    crudini --set /etc/kolla/kolla-build.conf DEFAULT tag $KOLLA_TAG
 
 WORKDIR /root/.kolla-$KOLLA_VERSION
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/bin/entrypoint.sh"]
