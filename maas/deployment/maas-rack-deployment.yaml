@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: maas-rack
+spec:
+  template:
+    metadata:
+      labels:
+        app: maas-rack-controller
+    spec:
+      hostNetwork: true
+      containers:
+      - name: maas-rack
+        imagePullPolicy: Never
+        image: att/maas-rack:1.0
+        ports:
+        - containerPort: 80
+        securityContext:
+          privileged: true

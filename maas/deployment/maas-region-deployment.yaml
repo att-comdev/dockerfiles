@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: maas-region
+spec:
+  template:
+    metadata:
+      labels:
+        app: maas-region
+    spec:
+      containers:
+      - name: maas-region
+        imagePullPolicy: Never
+        image: att/maas-region:1.0
+        ports:
+        - containerPort: 80
+        securityContext:
+          privileged: true
+# TODO(alanmeadows)
+# requires we solve for somehow initializing
+# /var/lib/postgresql/9.5/main with the data
+# built into the image
+#        volumeMounts:
+#        - mountPath: /var/lib/postgresql
+#          name: maas-db-volume
+#      volumes:
+#      - name: maas-db-volume
+#        hostPath:
+#          path: /tmp/maas-db
