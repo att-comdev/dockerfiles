@@ -67,12 +67,7 @@ RUN mkdir -p .venv && \
     pip install -e . && \
     oslo-config-generator --config-file etc/oslo-config-generator/kolla-build.conf && \
     mkdir -p /etc/kolla && \
-    mv etc/kolla/kolla-build.conf /etc/kolla && \
-    crudini --set /etc/kolla/kolla-build.conf DEFAULT base $KOLLA_BASE && \
-    crudini --set /etc/kolla/kolla-build.conf DEFAULT install_type $KOLLA_TYPE && \
-    crudini --set /etc/kolla/kolla-build.conf DEFAULT threads 1 && \
-    crudini --set /etc/kolla/kolla-build.conf DEFAULT namespace $KOLLA_NAMESPACE && \
-    crudini --set /etc/kolla/kolla-build.conf DEFAULT tag $KOLLA_TAG
+    mv etc/kolla/kolla-build.conf /etc/kolla 
 
 WORKDIR /root/.kolla-$KOLLA_VERSION
 
