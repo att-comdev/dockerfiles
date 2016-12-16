@@ -21,6 +21,7 @@ docker run -d --privileged \
   -e KOLLA_PROJECT=keystone \
   -e KOLLA_NAMESPACE=openstack-helm \
   -e KOLLA_VERSION=3.0.1 \
+  -e KOLLA_OSLO="YOURURL" \
   -e DOCKER_USER="YOURUSER" \
   -e DOCKER_PASS=YOURPASS \
   -e DOCKER_REGISTRY=quay.io \
