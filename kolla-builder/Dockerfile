@@ -8,6 +8,7 @@ ENV KOLLA_BASE=ubuntu \
     KOLLA_PROJECT=keystone \
     KOLLA_NAMESPACE=kolla \
     KOLLA_VERSION=3.0.1 \
+    KOLLA_OSLO=https://raw.githubusercontent.com/att-comdev/dockerfiles/master/kolla-builder/oslo_config/oslo_build.cfg \
     DOCKER_USER=docker-user \
     DOCKER_PASS=docker-pass \
     DOCKER_REGISTRY=quay.io \
@@ -66,8 +67,9 @@ RUN mkdir -p .venv && \
     cd ./kolla-$KOLLA_VERSION && \
     pip install -e . && \
     oslo-config-generator --config-file etc/oslo-config-generator/kolla-build.conf && \
-    mkdir -p /etc/kolla && \
-    mv etc/kolla/kolla-build.conf /etc/kolla 
+    mkdir -p /etc/kolla
+
+RUN curl -o /etc/kolla/kolla-build.conf $KOLLA_OSLO
 
 WORKDIR /root/.kolla-$KOLLA_VERSION
 
