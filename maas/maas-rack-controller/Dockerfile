@@ -49,4 +49,4 @@ RUN cd /usr/lib/python3/dist-packages/provisioningserver/drivers/power && patch 
 
 
 # initalize systemd
-CMD ["/sbin/init"]
+CMD ["/bin/chown maas:maas /var/lib/maas", "/sbin/init"]

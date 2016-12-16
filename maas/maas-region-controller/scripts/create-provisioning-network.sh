@@ -20,7 +20,7 @@ KEY=$(maas-region apikey --username=admin)
 maas login admin http://127.0.0.1/MAAS/ $KEY
 
 # try continually to load images
-while [ 1 ]; 
+while [ 1 ];
 do
 
 	# make call to import images
@@ -30,7 +30,7 @@ do
 	if maas admin boot-resources read | grep -q '\[\]';
 	then
 		echo "Failed to download boot-resources, will try again..."
-		sleep 600;
+		sleep 1200;
 	else
 		break
 	fi;

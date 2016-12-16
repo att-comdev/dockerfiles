@@ -55,4 +55,4 @@ RUN cd /usr/lib/python3/dist-packages/maasserver/models/ && patch -p2 < /tmp/gat
 RUN echo 3858f62230ac3c915f300c664312c63f > /var/lib/maas/secret
 
 # initalize systemd
-CMD ["/sbin/init"]
+CMD ["/bin/chown postgres:postgres /var/lib/postgresql", "/sbin/init"]
