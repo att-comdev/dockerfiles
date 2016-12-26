@@ -15,5 +15,7 @@ RUN tar -zxvf /tmp/${FILENAME} -C /tmp \
   && mv /tmp/linux-amd64/helm /bin/helm \
   && rm -rf /tmp
 
+EXPOSE 8879
+
 ENTRYPOINT ["/bin/helm"]
 
