@@ -21,7 +21,7 @@ spec:
         run: helm-server
     spec:
       containers:
-      - image: "quay.io/attcomdev/helm:v2.1.3"
+      - image: "quay.io/attcomdev/ubuntu-helm:v2.1.3"
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"]
         args: ["/bin/helm init; /bin/helm serve --address $ENDPOINT_IPADDR:8879"]
