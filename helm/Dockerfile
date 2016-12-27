@@ -1,8 +1,11 @@
-FROM alpine:3.4
+FROM ubuntu:16.04
 
 MAINTAINER Brandon B. Jozsa <bjozsa@att.com>
 
-RUN apk add --update --no-cache ca-certificates
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get autoclean
+
 
 ENV VERSION v2.1.3
 ENV FILENAME helm-${VERSION}-linux-amd64.tar.gz
@@ -15,7 +18,10 @@ RUN tar -zxvf /tmp/${FILENAME} -C /tmp \
   && mv /tmp/linux-amd64/helm /bin/helm \
   && rm -rf /tmp
 
+COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 EXPOSE 8879
 
-ENTRYPOINT ["/bin/helm"]
-
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
