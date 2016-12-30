@@ -9,4 +9,4 @@ RUN apt-get update && \
 # However, this should be removed when we transition to all init-containers
 # in openstack-helm
 COPY kubernetes-entrypoint /
-CMD [/kubernetes-entrypoint]
+CMD ["/kubernetes-entrypoint"]
