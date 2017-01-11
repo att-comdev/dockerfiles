@@ -230,7 +230,12 @@ function start_mon {
         fi
       elif [ ${NETWORK_AUTO_DETECT} -eq 4 ]; then
         MON_IP=$(ip -4 -o a s $NIC_MORE_TRAFFIC | awk '{ sub ("/..", "", $4); print $4 }')
-        CEPH_PUBLIC_NETWORK=$(ip r | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}' | head -1)
+        # first we try to extract the public network from ceph.conf as the automated extraction based on routes
+        # fails with CNIs such as calico where the containers are not aware of the super route
+        CEPH_PUBLIC_NETWORK=$(cat /etc/ceph/ceph.conf | grep public_network | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}')
+        if [ -z "$CEPH_PUBLIC_NETWORK"]; then
+          CEPH_PUBLIC_NETWORK=$(ip r | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}' | head -1)
+        fi;
       elif [ ${NETWORK_AUTO_DETECT} -eq 6 ]; then
         MON_IP=$(ip -6 -o a s $NIC_MORE_TRAFFIC | awk '{ sub ("/..", "", $4); print $4 }')
         CEPH_PUBLIC_NETWORK=$(ip r | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}' | head -1)
