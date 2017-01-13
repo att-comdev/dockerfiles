@@ -215,7 +215,7 @@ setup_bridge_networking() {
 	# functionality
 	if [ -z $NO_VNC ]; then
    		iptables -t nat -A PREROUTING -p tcp \! --dport 5900 -d $HOST_IP -j DNAT --to-destination $VM_IP
-   		iptables -t nat -A PREROUTING \! -p tcp -d $HOST_IP -j DNAT --to-destination $VM_IP
+   		iptables -t nat -A POSTROUTING -s $VM_IP -j SNAT --to-source $HOST_IP
    	else
 		iptables -t nat -A PREROUTING -d $HOST_IP -j DNAT --to-destination $VM_IP
 		iptables -t nat -A POSTROUTING -s $VM_IP -j SNAT --to-source $HOST_IP
