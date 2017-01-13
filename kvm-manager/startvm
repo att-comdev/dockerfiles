@@ -144,7 +144,7 @@ else
 
     KVM_IMAGE=/image/${HOSTNAME}.qcow2
 
-    if [ -e "${KVM_IMAGE}"] ]; then
+    if [ -e "${KVM_IMAGE}" ]; then
     	echo "Image ${KVM_IMAGE} already exists.  Not recreating"
 
     else
