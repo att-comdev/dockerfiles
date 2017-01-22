@@ -8,7 +8,6 @@ ENV KOLLA_BASE=ubuntu \
     KOLLA_PROJECT=keystone \
     KOLLA_NAMESPACE=kolla \
     KOLLA_VERSION=3.0.1 \
-    KOLLA_OSLO=https://raw.githubusercontent.com/att-comdev/dockerfiles/master/kolla-builder/oslo_config/oslo_build.cfg \
     DOCKER_USER=docker-user \
     DOCKER_PASS=docker-pass \
     DOCKER_REGISTRY=quay.io \
@@ -39,17 +38,18 @@ RUN apt-get update && \
         sudo \
         python3 \
         curl \
+        screen \
         docker.io
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY scripts/start.sh /usr/local/bin/start.sh
 COPY scripts/wrapdocker /usr/local/bin/wrapdocker
 COPY scripts/clean.sh /usr/local/bin/clean.sh
 COPY scripts/supervisord.conf /etc/supervisor/conf.d/wrapdocker.conf
 COPY scripts/kolla-push.sh /usr/local/bin/kolla-push.sh
 
-RUN chmod +x /usr/local/bin/entrypoint.sh && \
+RUN chmod +x /usr/local/bin/start.sh && \
     chmod +x /usr/local/bin/wrapdocker && \
     chmod +x /usr/local/bin/clean.sh && \
     chmod +x /etc/supervisor/conf.d/wrapdocker.conf && \
@@ -66,11 +66,13 @@ RUN mkdir -p .venv && \
     . .venv/kolla-builds/bin/activate && \
     cd ./kolla-$KOLLA_VERSION && \
     pip install -e . && \
-    oslo-config-generator --config-file etc/oslo-config-generator/kolla-build.conf && \
     mkdir -p /etc/kolla
 
-RUN curl -o /etc/kolla/kolla-build.conf $KOLLA_OSLO
+RUN mkdir -p /root/.kolla-$KOLLA_VERSION/src/$KOLLA_PROJECT && \
+    git clone http://git.openstack.org/openstack/keystone.git /tmp/kolla/src/keystone 
+
+COPY oslo_config/kolla-build.conf /etc/kolla/kolla-build.conf
 
 WORKDIR /root/.kolla-$KOLLA_VERSION
 
-CMD ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/bin/start.sh"]
