@@ -1,5 +1,5 @@
 # kolla-builder
-[![Docker Repository on Quay](https://quay.io/repository/attcomdev/kolla-builder/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/kolla-builder)
+[![Docker Repository on Quay](https://quay.io/repository/v1k0d3n/kolla-build/status "Docker Repository on Quay")](https://quay.io/repository/v1k0d3n/kolla-build)
 
 # Overview
 This container is a bit of an odd duck. We're using this franken-tainer, along with our Openstack-Helm project to demonstrate that we can commit code changes to something like Keystone (upstream in Openstack Garrit), immediately pull in and build these changes for our environment, and kick off this build process from within our Kubernetes deployment. 
