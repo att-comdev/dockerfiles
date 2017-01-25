@@ -14,4 +14,4 @@ you can retrive with ```kubectl get all -o wide```
 This chart assumes a working PVC manager and if using ceph for dynamic PVC claims
 that the namespace used has the ceph keys installed into it already.
 
-This would be the case if you were using aic-helm and the ceph charts there. See [https://github.com/att-comdev/openstack-helm](openstack-helm) for more information.
+This would be the case if you were using aic-helm and the ceph charts there. See [https://github.com/att-comdev/openstack-helm](https://github.com/att-comdev/openstack-helm) for more information.
