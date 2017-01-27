@@ -28,31 +28,40 @@ RUN apt-get install -y rsyslog
 RUN systemctl enable rsyslog.service
 
 # install maas
-RUN rsyslogd; apt-get install -y maas-cli maas-region-controller
+RUN rsyslogd; apt-get install -y maas-cli \
+    maas-dns \
+    maas-region-api \
+    avahi-utils \
+    dbconfig-pgsql=2.0.4ubuntu1 \
+    iputils-ping \
+    postgresql \
+    tcpdump \
+    python3-pip
+
+
+RUN apt-get download maas-region-controller && \
+# remove postinstall script in order to avoid writing data to postgres
+    dpkg-deb --extract maas-region-controller*.deb maas-region-controller && \
+    dpkg-deb --control maas-region-controller*.deb maas-region-controller/DEBIAN && \
+    rm maas-region-controller/DEBIAN/postinst && \
+    dpkg-deb --build maas-region-controller && \
+    dpkg -i maas-region-controller.deb && \
+    pg_dropcluster --stop 9.5 main
 
 # potentially used to calculate cidrs
-RUN apt-get install -y python3-pip
 RUN pip3 install netaddr
-
-COPY scripts/create-provisioning-network.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/create-provisioning-network.sh
 
 # we'll create a service which will help create our
 # provisioning network when the maas API
 # gets instantiated
 COPY scripts/create-provisioning-network.service /lib/systemd/system/create-provisioning-network.service
+COPY scripts/create-provisioning-network.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/create-provisioning-network.sh
 RUN systemctl enable create-provisioning-network.service
 
 # Fix for the gateway change bug in MAAS regiond version 2.1 from (alanmeadows)
 COPY scripts/gateway-fix.patch /tmp/gateway-fix.patch
 RUN cd /usr/lib/python3/dist-packages/maasserver/models/ && patch -p2 < /tmp/gateway-fix.patch
-
-# specify a static secret so we can register controllers
-# without having to pull the uniquely generated one
-# from this - note the secret must be a valid
-# hex value and match whats in the maas-rack-controller
-# scripts/register-rack-controller.sh
-RUN echo 3858f62230ac3c915f300c664312c63f > /var/lib/maas/secret
 
 # initalize systemd
 CMD ["/sbin/init"]
