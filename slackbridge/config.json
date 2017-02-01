@@ -1,0 +1,14 @@
+[
+  {
+    "nickname": "osh-chatbot",
+    "server": "irc.freenode.org",
+    "token": "xoxb-TOKENGOESHERE",
+    "autoSendCommands": [
+        ["MODE", "test", "+i"],
+        ["AUTH", "test", "password"]
+    ],
+    "channelMapping": {
+      "#openstack-helm": "#openstack-helm"
+    }
+  }
+]
