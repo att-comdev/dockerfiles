@@ -1,14 +1,14 @@
 [
   {
-    "nickname": "osh-chatbot",
-    "server": "irc.freenode.org",
-    "token": "xoxb-TOKENGOESHERE",
+    "nickname": "$bot_nickname",
+    "server": "$irc_server",
+    "token": "$slack_token",
     "autoSendCommands": [
         ["MODE", "test", "+i"],
         ["AUTH", "test", "password"]
     ],
     "channelMapping": {
-      "#openstack-helm": "#openstack-helm"
+      "$irc_channel": "$slack_channel"
     }
   }
 ]
