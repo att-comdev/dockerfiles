@@ -8,7 +8,7 @@
         ["AUTH", "test", "password"]
     ],
     "channelMapping": {
-      "$irc_channel": "$slack_channel"
+      "$slack_channel": "$irc_channel"
     }
   }
 ]
