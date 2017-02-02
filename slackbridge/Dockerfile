@@ -2,13 +2,15 @@ FROM ubuntu:wily
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV irc_server "irc.server.net"
+ENV irc_server "irc.freenode.org"
 ENV slack_token "MySlackToken"
-ENV bot_nickname "MrRoboto"
-ENV slack_channel "#slackchannel
-ENV irc_channel "#ircchannel
+ENV bot_nickname "ChatBotNick"
+ENV slack_channel "#SlackChannel"
+ENV irc_channel "#IRCChannel"
 
 
+#Add Data Volume
+VOLUME /slack-irc
 
 # Usual update / upgrade
 RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
@@ -28,13 +30,13 @@ RUN apt-get install -y gettext-base
 
 
 # Add configurations
-ADD config.json slack-irc/config-temp.json
+COPY config.json slack-irc/config-temp.json
 
 #Substitute the environment variables into the template
 RUN envsubst < "slack-irc/config-temp.json" > "slack-irc/config.json"
 
 # Add supervisor configs
-ADD supervisord.conf supervisord.conf
+COPY supervisord.conf supervisord.conf
 
 CMD ["-n", "-c", "/supervisord.conf"]
 ENTRYPOINT ["/usr/bin/supervisord"]
