@@ -2,15 +2,12 @@ FROM ubuntu:wily
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV irc_server "irc.freenode.org"
+ENV irc_server "irc.server.net"
 ENV slack_token "MySlackToken"
 ENV bot_nickname "ChatBotNick"
 ENV slack_channel "#SlackChannel"
 ENV irc_channel "#IRCChannel"
 
-
-#Add Data Volume
-VOLUME /slack-irc
 
 # Usual update / upgrade
 RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
