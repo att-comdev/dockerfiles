@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu
 MAINTAINER bjozsa@att.com
 
 ENV container docker
@@ -11,6 +11,8 @@ RUN apt-get update -qq && apt-get install -qqy \
     lxc \
     vim \
     iptables
+
+RUN curl -sSL https://get.docker.com/ | sh
 
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
 rm -f /lib/systemd/system/multi-user.target.wants/*;\
