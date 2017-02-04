@@ -1,4 +1,5 @@
 # Kubeadm CI Container
+[![Docker Repository on Quay](https://quay.io/repository/attcomdev/kubeadm-ci/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/kubeadm-ci)
 
 This continer is intended to be used in CI. It takes the concepts from [kubeadm issue #17](https://github.com/kubernetes/kubeadm/issues/17), and the recommendations from @mikedanese.
 
@@ -6,17 +7,17 @@ This continer is intended to be used in CI. It takes the concepts from [kubeadm 
 
 To use this container, use these simple instructions:
 
-Run the container:
+**Run the container:**
 ```
 docker run -it -e "container=docker" --privileged=true --name kubeadm-ci -d --security-opt seccomp:unconfined --cap-add=SYS_ADMIN -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/run/docker.sock:/var/run/docker.sock  quay.io/attcomdev/kubeadm-ci:latest /sbin/init
 ```
 
-Enter the container:
+**Enter the container:**
 ```
 docker exec -it kubeadm-ci /bin/bash
 ```
 
-Configure the container:
+**Configure the container:**
 ```
 echo "Updating Ubuntu..."
 apt-get update -y
