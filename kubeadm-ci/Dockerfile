@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu
 MAINTAINER bjozsa@att.com
 
 ENV container docker
