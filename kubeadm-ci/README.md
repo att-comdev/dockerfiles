@@ -7,17 +7,17 @@ This continer is intended to be used in CI. It takes the concepts from [kubeadm 
 
 To use this container, use these simple instructions:
 
-**Run the container:**
+**Run with CI:**
 ```
 docker run -it -e "container=docker" --privileged=true --name kubeadm-ci -d --security-opt seccomp:unconfined --cap-add=SYS_ADMIN -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/run/docker.sock:/var/run/docker.sock  quay.io/attcomdev/kubeadm-ci:latest /sbin/init
 ```
 
-**Enter the container:**
+**Have CI Configure the Container (manual shown):**
 ```
 docker exec -it kubeadm-ci /bin/bash
 ```
 
-**Configure the container:**
+**Use the following with CI platform:**
 ```
 echo "Updating Ubuntu..."
 apt-get update -y
@@ -51,4 +51,4 @@ apt-get install -y \
   kubeadm
 ```
 
-Now you can `kubeadm init --skip-preflight-checks` the container as you would normally on any system.
+Now the CI platform shouuld be able to `kubeadm init --skip-preflight-checks` and operate as any normal kubeadm master AIO node.
