@@ -1,7 +1,7 @@
 # Kubeadm CI Container
 [![Docker Repository on Quay](https://quay.io/repository/attcomdev/kubeadm-ci/status "Docker Repository on Quay")](https://quay.io/repository/attcomdev/kubeadm-ci)
 
-This continer is intended to be used in CI. It takes the concepts from [kubeadm issue #17](https://github.com/kubernetes/kubeadm/issues/17), and the recommendations from @mikedanese.
+This container is intended to be used in CI. It takes the concepts from [kubeadm issue #17](https://github.com/kubernetes/kubeadm/issues/17), and the recommendations from @mikedanese.
 
 ## Instructions
 
@@ -11,8 +11,15 @@ To use this container, use these simple instructions:
 ```
 docker run -it -e "container=docker" --privileged=true --name kubeadm-ci -d --security-opt seccomp:unconfined --cap-add=SYS_ADMIN -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/run/docker.sock:/var/run/docker.sock  quay.io/attcomdev/kubeadm-ci:latest /sbin/init
 ```
+**Configure the Container With kubeadm.sh Script**
 
-**Have CI Configure the Container (manual shown):**
+The following script installs and initilializes kubeadm to skip preflight checks, taints the single kubeadm node so pods can be scheduled on it, then applies the calico manifest. 
+```
+docker exec kubeadm-ci kubeadm.sh
+```
+
+
+**Or Have CI Configure the Container (manual shown):**
 ```
 docker exec -it kubeadm-ci /bin/bash
 ```
