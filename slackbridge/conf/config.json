@@ -1,14 +1,14 @@
 [
   {
-    "nickname": "$bot_nickname",
-    "server": "$irc_server",
-    "token": "$slack_token",
+    "nickname": "$BOT_NICKNAME",
+    "server": "$IRC_SERVER",
+    "token": "$SLACK_TOKEN",
     "autoSendCommands": [
         ["MODE", "test", "+i"],
         ["AUTH", "test", "password"]
     ],
     "channelMapping": {
-      "$slack_channel": "$irc_channel"
+      "#$SLACK_CHANNEL": "#$IRC_CHANNEL"
     }
   }
 ]
