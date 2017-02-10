@@ -9,7 +9,7 @@ To use this container, use these simple instructions:
 
 **Run with CI:**
 ```
-docker run -it -e "container=docker" --privileged=true --name kubeadm-ci -d --security-opt seccomp:unconfined --cap-add=SYS_ADMIN -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/run/docker.sock:/var/run/docker.sock  quay.io/attcomdev/kubeadm-ci:latest /sbin/init
+docker run -it -e "container=docker" --privileged=true --net=host --name kubeadm-ci -d --security-opt seccomp:unconfined --cap-add=SYS_ADMIN -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v /var/run/docker.sock:/var/run/docker.sock  quay.io/attcomdev/kubeadm-ci:latest /sbin/init
 ```
 **Configure the Container With kubeadm.sh Script**
 
