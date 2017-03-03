@@ -23,6 +23,9 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
+COPY scripts/kubeadm.sh /usr/local/bin/kubeadm.sh
+RUN chmod +x /usr/local/bin/kubeadm.sh
+
 VOLUME /sys/fs/cgroup
 VOLUME /var/run/docker.sock
 
