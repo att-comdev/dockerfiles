@@ -47,6 +47,8 @@ RUN cd /usr/lib/python3/dist-packages/provisioningserver/utils/ && patch -p2 < /
 COPY scripts/ipmi.patch /tmp/ipmi.patch
 RUN cd /usr/lib/python3/dist-packages/provisioningserver/drivers/power && patch -p0 < /tmp/ipmi.patch
 
+RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
+RUN ln -s /usr/bin/tcpdump /usr/sbin/tcpdump
 
 # initalize systemd
 CMD ["/sbin/init"]
