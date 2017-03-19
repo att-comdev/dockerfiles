@@ -1,0 +1,37 @@
+#!/bin/bash
+set -ex
+
+# Set the KUBELET_CONTAINER env var
+source /etc/kubelet-container
+
+if [ "$KUBELET_CONTAINER" == "this_one" ]; then
+  exec kubelet-real --containerized=true "${@}"
+else
+  # Lets remove any old containers
+  docker rm -f kubelet || true
+
+  # Launch the container
+  exec docker run \
+        --name kubelet \
+        --restart=always \
+        --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro \
+        --volume=/:/rootfs:ro \
+        --volume=/dev/net:/dev/net:rw \
+        --volume=/var/run/netns:/var/run/netns:rw \
+        --volume=/sys:/sys:ro \
+        --volume=/etc/machine-id:/etc/machine-id:ro \
+        --volume=/opt/cni:/opt/cni:rw \
+        --volume=/etc/cni/net.d:/etc/cni/net.d:rw \
+        --volume=/var/lib/docker/:/var/lib/docker:rw \
+        --volume=/var/lib/kubelet/:/var/lib/kubelet:rshared \
+        --volume=/var/run:/var/run:rw \
+        --volume=/etc/kubernetes:/etc/kubernetes:rw \
+        --volume=/etc/hosts:/etc/hosts:rw \
+        --volume=/etc/resolv.conf:/etc/resolv.conf:rw \
+        --net=host \
+        --privileged=true \
+        --pid=host \
+        --ipc=host \
+        ${KUBELET_CONTAINER} \
+          kubelet --containerized=true "${@}"
+fi
