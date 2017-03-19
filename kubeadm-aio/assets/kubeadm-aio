@@ -1,0 +1,24 @@
+#!/bin/bash
+set -ex
+
+echo "Checking cgroups"
+################################################################################
+if ls -dZ /sys/fs/cgroup | grep -q :svirt_sandbox_file_t: ; then
+  echo "Invocation error: use -v /sys/fs/cgroup:/sys/fs/cgroup:ro parameter to docker run."
+  exit 1
+fi
+
+
+echo "Setting up device image to use for kube-api"
+################################################################################
+sed -i "s|KUBE_BIND_DEV=.*|KUBE_BIND_DEV=${KUBE_BIND_DEV}|g" /etc/kubeapi-device
+
+
+echo "Setting up container image to use for kubelet"
+################################################################################
+sed -i "s|KUBELET_CONTAINER=.*|KUBELET_CONTAINER=${KUBELET_CONTAINER}|g" /etc/kubelet-container
+
+
+echo "Starting Systemd"
+################################################################################
+exec /bin/systemd --system
