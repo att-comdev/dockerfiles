@@ -6,6 +6,6 @@ This `kube-controller-manager` Dockerfile adds [ceph-common](http://packages.ubu
 
 The image artifact adds the [latest](https://quay.io/repository/attcomdev/kube-controller-manager?tab=tags) Kubernetes [kube-controller-manager](https://kubernetes.io/docs/admin/kube-controller-manager/) binary on top of `ceph-common`, so that [Ceph RDB utilities](http://docs.ceph.com/docs/master/man/8/rbd/) can be leveraged for projects like [Openstack-Helm](https://github.com/att-comdev/openstack-helm), or any other deployments that require Ceph [persistent volume claims](https://kubernetes.io/docs/user-guide/persistent-volumes/) for Kubernetes workloads.
 
-As an exmaple, to use this image for a [kubeadm](https://github.com/kubernetes/kubeadm) deployment, update `/etc/kubernetes/manifests/kube-controller-manager.yaml` after initialization of the cluster to point to a build for this image. If leveraging a local docker build, you may need to update the image pull policy. Finally, you will want to reboot your Master node.
+As an exmaple, to use this image for a [kubeadm](https://github.com/kubernetes/kubeadm) deployment, update `/etc/kubernetes/manifests/kube-controller-manager.yaml` after initialization of the cluster to point to a build for this image. If leveraging a local docker build, you may need to update the image pull policy. Finally, you will want to reboot your Kubernetes Master node.
 
-If you wish to use a pre-built image, one is available on [Quay.io](quay.io/attcomdev/kube-controller-manager).
+If you wish to use a pre-built image, one is available on [Quay.io](https://quay.io/repository/attcomdev/kube-controller-manager?tag=latest&tab=tags).
