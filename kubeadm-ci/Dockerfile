@@ -11,11 +11,10 @@ RUN set -x \
         curl \
         lxc \
         vim \
-        iptables
-
-RUN curl -sSL https://get.docker.com/ | sh
-
-RUN set -x \
+        iptables \
+# Install docker
+    && curl -sSL https://get.docker.com/ | sh \
+# Setup Systemd for running in a container
     && find /lib/systemd/system/sysinit.target.wants/ ! -name 'systemd-tmpfiles-setup.service' -type l -exec rm -fv {} + \
     && ls -lah /lib/systemd/system/sysinit.target.wants/ \
     && rm -fv /lib/systemd/system/multi-user.target.wants/* \
