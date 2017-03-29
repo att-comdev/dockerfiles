@@ -1,0 +1,15 @@
+#!/bin/bash
+set -x
+echo "Cloning OpenStack-Helm"
+git clone https://github.com/att-comdev/openstack-helm.git /opt/openstack-helm
+
+echo "Starting helm local repo"
+helm serve &
+sleep 5s
+helm repo add local http://localhost:8879/charts
+
+echo "Building OpenStack-Helm"
+cd /opt/openstack-helm; make
+
+echo "Labeling the nodes as Openstack Control Plane nodes"
+kubectl label nodes openstack-control-plane=enabled --all --namespace=openstack
