@@ -5,9 +5,9 @@ source /etc/kubeapi-device
 if ! [ "$KUBE_BIND_DEV" == "autodetect" ]; then
   KUBE_BIND_IP=$(ip addr list ${KUBE_BIND_DEV} |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
   echo "We are going to bind the K8s API to: ${KUBE_BIND_IP}"
-  kubeadm init --skip-preflight-checks --api-advertise-addresses ${KUBE_BIND_IP}
+  kubeadm init --skip-preflight-checks --use-kubernetes-version=v1.5.6  --api-advertise-addresses ${KUBE_BIND_IP}
 else
-  kubeadm init --skip-preflight-checks
+  kubeadm init --skip-preflight-checks --use-kubernetes-version=v1.5.6
 fi
 
 echo "Marking master node as sceduleable"
