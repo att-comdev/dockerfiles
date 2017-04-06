@@ -19,19 +19,27 @@ RUN set -x \
     && apt-get install -y \
         docker.io \
         iptables \
-        kubernetes-cni \
-        kubelet \
-        kubectl \
+        kubectl=1.5.3-00 \
+        kubelet=1.5.3-00 \
+        kubernetes-cni=0.3.0.1-07a8a2-00 \
+    && apt-mark hold kubectl kubelet kubernetes-cni \
 # Install Kubeadm without running postinstall script
+# (Pete Birley) The various horrors in here are a result of a badly written .deb
+# and the lack of an older version of kubeadm in the upstream repo, though the
+# package still exists. Please avert your eyes and trust us.
     && cd /tmp \
-    && apt-get download kubeadm \
-    && dpkg --unpack kubeadm*.deb \
-    && mv /var/lib/dpkg/info/kubeadm.postinst /opt/kubeadm.postinst \
-    && dpkg --configure kubeadm \
-    && apt-get install -yf kubeadm \
+    && curl -Lo /tmp/kubeadm.deb https://apt.k8s.io/pool/kubeadm_1.6.0-alpha.0.2074-a092d8e0f95f52-00_amd64_0206dba536f698b5777c7d210444a8ace18f48e045ab78687327631c6c694f42.deb \
+    && mv /bin/systemctl /bin/systemctl-real \
+    && echo '#!/bin/bash' > /bin/systemctl \
+    && echo 'true' >> /bin/systemctl \
+    && chmod +x /bin/systemctl \
+    && dpkg -i /tmp/kubeadm.deb \
+    && rm -f /bin/systemctl \
+    && mv /bin/systemctl-real /bin/systemctl \
     && mkdir -p /etc/kubernetes/manifests \
     && cd / \
     && rm -rf /tmp/* \
+    && apt-mark hold kubeadm \
 # Move kubelet binary as we will run containerised
     && mv /usr/bin/kubelet /usr/bin/kubelet-real \
 # Install helm binary
@@ -59,10 +67,10 @@ RUN set -x \
     && rm -rf /var/lib/apt/lists/*
 
 # Load assets into place, setup startup target & units
-COPY ./assets/ /opt/kubeadm-aio/assets
+COPY ./assets/ /tmp/assets
 RUN set -x \
-    && cp -rf /opt/kubeadm-aio/assets/* / \
-    && rm -rf /opt/kubeadm-aio/assets \
+    && cp -rf /tmp/assets/* / \
+    && rm -rf /tmp/assets \
     && ln -s /usr/lib/systemd/system/container-up.target /etc/systemd/system/default.target \
     && mkdir -p /etc/systemd/system/container-up.target.wants \
     && ln -s /usr/lib/systemd/system/kubeadm-aio.service /etc/systemd/system/container-up.target.wants/kubeadm-aio.service
