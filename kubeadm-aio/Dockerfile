@@ -59,10 +59,10 @@ RUN set -x \
     && rm -rf /var/lib/apt/lists/*
 
 # Load assets into place, setup startup target & units
-COPY ./assets/ /opt/harbor/assets
+COPY ./assets/ /opt/kubeadm-aio/assets
 RUN set -x \
-    && cp -rf /opt/harbor/assets/* / \
-    && rm -rf /opt/harbor/assets \
+    && cp -rf /opt/kubeadm-aio/assets/* / \
+    && rm -rf /opt/kubeadm-aio/assets \
     && ln -s /usr/lib/systemd/system/container-up.target /etc/systemd/system/default.target \
     && mkdir -p /etc/systemd/system/container-up.target.wants \
     && ln -s /usr/lib/systemd/system/kubeadm-aio.service /etc/systemd/system/container-up.target.wants/kubeadm-aio.service

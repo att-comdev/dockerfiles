@@ -67,7 +67,7 @@ sudo rm -rfv /etc/cni/net.d /etc/kubernetes /var/lib/etcd /var/lib/nfs-provision
 Pull and run the container.
 
 ``` bash
-sudo docker pull docker.io/port/kubeadm-aio:latest
+sudo docker pull docker.io/attcomdev/kubeadm-aio:latest
 sudo docker run \
     -dt \
     --name=kubeadm-aio \
@@ -81,8 +81,8 @@ sudo docker run \
     --volume=/etc/kubernetes:/etc/kubernetes:rw \
     --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro \
     --volume=/var/run/docker.sock:/run/docker.sock \
-    --env KUBELET_CONTAINER=docker.io/port/kubeadm-aio:latest \
-    docker.io/port/kubeadm-aio:latest
+    --env KUBELET_CONTAINER=docker.io/attcomdev/kubeadm-aio:latest \
+    docker.io/attcomdev/kubeadm-aio:latest
 ```
 
 ### Logs
