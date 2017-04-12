@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER pete.birley@att.com
 
-ARG HELM_VERSION=v2.1.3
+ARG HELM_VERSION=v2.2.3
 
 ENV container="docker" \
     DEBIAN_FRONTEND="noninteractive"
