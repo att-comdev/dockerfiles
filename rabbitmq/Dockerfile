@@ -44,29 +44,22 @@ RUN apt-get update \
 		erlang-public-key \
 		erlang-ssl \
 		erlang-xmerl \
+		logrotate \
+		socat \
+		init-system-helpers \
 	&& rm -rf /var/lib/apt/lists/*
 
 # get logs to stdout (thanks @dumbbell for pushing this upstream! :D)
 ENV RABBITMQ_LOGS=- RABBITMQ_SASL_LOGS=-
 # https://github.com/rabbitmq/rabbitmq-server/commit/53af45bf9a162dec849407d114041aad3d84feaf
 
-# http://www.rabbitmq.com/install-debian.html
-# "Please note that the word testing in this line refers to the state of our release of RabbitMQ, not any particular Debian distribution."
-RUN set -ex; \
-	key='0A9AF2115F4687BD29803A206B73A36E6026DFCA'; \
-	export GNUPGHOME="$(mktemp -d)"; \
-	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
-	gpg --export "$key" > /etc/apt/trusted.gpg.d/rabbitmq.gpg; \
-	rm -r "$GNUPGHOME"; \
-	apt-key list
-RUN echo 'deb http://www.rabbitmq.com/debian testing main' > /etc/apt/sources.list.d/rabbitmq.list
 
-ENV RABBITMQ_VERSION 3.6.9
-ENV RABBITMQ_DEBIAN_VERSION 3.6.9-1
+ENV RABBITMQ_VERSION 3.7.500.14
+ENV RABBITMQ_DEBIAN_VERSION 3.7.500.14-1
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-		rabbitmq-server=$RABBITMQ_DEBIAN_VERSION \
-	&& rm -rf /var/lib/apt/lists/*
+ADD https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_7_0_milestone14/rabbitmq-server_3.7.500.14-1_all.deb /tmp
+RUN dpkg -i /tmp/rabbitmq-server_${RABBITMQ_DEBIAN_VERSION}_all.deb && \
+	rm /tmp/rabbitmq-server_${RABBITMQ_DEBIAN_VERSION}_all.deb
 
 # /usr/sbin/rabbitmq-server has some irritating behavior, and only exists to "su - rabbitmq /usr/lib/rabbitmq/bin/rabbitmq-server ..."
 ENV PATH /usr/lib/rabbitmq/bin:$PATH
