@@ -16,7 +16,7 @@ build:
 	sudo docker build -t $(NAMESPACE)/$(IMAGE):$(TAG) .
 
 push:
-	sudo docker push -t $(NAMESPACE)/$(IMAGE):$(TAG)
+	sudo docker push $(NAMESPACE)/$(IMAGE):$(TAG)
 
 
 .PHONY : build push
