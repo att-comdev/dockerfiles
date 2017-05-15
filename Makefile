@@ -25,7 +25,7 @@ IMAGES := \
 	kube-controller-manager:v1.6.2 \
 	kvm-manager:latest \
 	openvswitch-vswitchd:latest \
-	rabbitmq:3.7.0-pre-14 \
+	rabbitmq:3.7.0-pre-15 \
 
 DEFAULT_NAMESPACE := quay.io/attcomdev
 
