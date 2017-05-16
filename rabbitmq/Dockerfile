@@ -54,10 +54,10 @@ ENV RABBITMQ_LOGS=- RABBITMQ_SASL_LOGS=-
 # https://github.com/rabbitmq/rabbitmq-server/commit/53af45bf9a162dec849407d114041aad3d84feaf
 
 
-ENV RABBITMQ_VERSION 3.7.500.14
-ENV RABBITMQ_DEBIAN_VERSION 3.7.500.14-1
+ENV RABBITMQ_VERSION 3.7.500.15
+ENV RABBITMQ_DEBIAN_VERSION 3.7.500.15-1
 
-ADD https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_7_0_milestone14/rabbitmq-server_3.7.500.14-1_all.deb /tmp
+ADD https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_7_0_milestone15/rabbitmq-server_3.7.500.15-1_all.deb /tmp
 RUN dpkg -i /tmp/rabbitmq-server_${RABBITMQ_DEBIAN_VERSION}_all.deb && \
 	rm /tmp/rabbitmq-server_${RABBITMQ_DEBIAN_VERSION}_all.deb
 
