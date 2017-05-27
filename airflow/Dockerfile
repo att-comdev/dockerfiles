@@ -9,7 +9,7 @@ ENV TERM linux
 
 # Airflow
 ARG AIRFLOW_VERSION=%%AIRFLOW_VERSION%%
-ENV AIRFLOW_HOME /usr/local/airflow
+ARG AIRFLOW_HOME=/usr/local/airflow
 
 # Define en_US.
 ENV LANGUAGE en_US.UTF-8
@@ -17,11 +17,10 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 ENV LC_MESSAGES en_US.UTF-8
-ENV LC_ALL  en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 RUN set -ex \
     && buildDeps=' \
-        python-pip \
         python-dev \
         libkrb5-dev \
         libsasl2-dev \
@@ -30,35 +29,36 @@ RUN set -ex \
         build-essential \
         libblas-dev \
         liblapack-dev \
+        libpq-dev \
+        git \
         libxml2-dev \
         libxml2 \
         libxmlsec1-dev \
     ' \
-    && echo "deb http://http.debian.net/debian jessie-backports main" >/etc/apt/sources.list.d/backports.list \
     && apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
+        python-pip \
+        python-requests \
         apt-utils \
         curl \
         netcat \
         locales \
-    && apt-get install -yqq -t jessie-backports python-requests libpq-dev \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
-    && pip uninstall setuptools \
-    && pip install setuptools==33.1.1 \
-    && pip install pytz==2015.7 \
-    && pip install cryptography \
+    && python -m pip install -U pip \
+    && pip install Cython \
+    && pip install pytz \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
     && pip install psycopg2 \
     && pip install docker-py>=1.6.0 \
     && pip install ast \
-    && pip install apache-airflow[celery,postgresql,hive]==$AIRFLOW_VERSION \
-    && apt-get remove --purge -yqq $buildDeps libpq-dev \
+    && pip install apache-airflow[crypto,celery,postgres,hive,hdfs,jdbc]==$AIRFLOW_VERSION \
+    && apt-get remove --purge -yqq $buildDeps \
     && apt-get clean \
     && rm -rf \
         /var/lib/apt/lists/* \
@@ -67,6 +67,7 @@ RUN set -ex \
         /usr/share/man \
         /usr/share/doc \
         /usr/share/doc-base
+
 
 ENV KUBECTL_VERSION %%KUBECTL_VERSION%%
 
