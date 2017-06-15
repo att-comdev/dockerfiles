@@ -1,7 +1,7 @@
 # VERSION 1.8.1
 # DESCRIPTION: Docker image to run Airflow on Kubernetes which is capable of creating Kubernetes jobs
 
-FROM debian:jessie
+FROM ubuntu:16.04
 
 # Never prompts the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -49,6 +49,7 @@ RUN set -ex \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
     && python -m pip install -U pip \
+    && pip install setuptools \
     && pip install Cython \
     && pip install pytz \
     && pip install pyOpenSSL \
@@ -56,8 +57,8 @@ RUN set -ex \
     && pip install pyasn1 \
     && pip install psycopg2 \
     && pip install docker-py>=1.6.0 \
-    && pip install ast \
     && pip install apache-airflow[crypto,celery,postgres,hive,hdfs,jdbc]==$AIRFLOW_VERSION \
+    && pip install python-openstackclient \
     && apt-get remove --purge -yqq $buildDeps \
     && apt-get clean \
     && rm -rf \
