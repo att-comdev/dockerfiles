@@ -20,17 +20,18 @@ ENV DEBIAN_FRONTEND=noninteractive \
     VERSION=master
 
 RUN apt-get -qq update && \
-    apt-get -y install ca-certificates \
-                         g++ \
-                         gcc \
-                         git \
-                         libffi-dev \
-                         libssl-dev --no-install-recommends \
-                         make \
-                         netbase \
-                         python3-minimal \
-                         python3-setuptools \
-                         python3-pip python3-dev
+    apt-get -y install \
+       ca-certificates \
+       g++ \
+       gcc \
+       git \
+       libffi-dev \
+       libssl-dev --no-install-recommends \
+       make \
+       netbase \
+       python3-minimal \
+       python3-setuptools \
+       python3-pip python3-dev
 
 RUN git clone -b $VERSION https://github.com/att-comdev/drydock.git /tmp/drydock
 
