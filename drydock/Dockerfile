@@ -19,18 +19,22 @@ ENV DEBIAN_FRONTEND=noninteractive \
     container=docker \
     VERSION=master
 
-RUN apt-get -qq update && \
-    apt-get -y install ca-certificates \
-                         g++ \
-                         gcc \
-                         git \
-                         libffi-dev \
-                         libssl-dev --no-install-recommends \
-                         make \
-                         netbase \
-                         python3-minimal \
-                         python3-setuptools \
-                         python3-pip python3-dev
+RUN set -x \
+    && apt-get -qq update \
+    && apt-get -y --no-install-recommends install \
+       ca-certificates \
+       g++ \
+       gcc \
+       git \
+       libffi-dev \
+       libssl-dev \
+       make \
+       netbase \
+       python3-dev \
+       python3-minimal \
+       python3-pip \
+       python3-setuptools \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN git clone -b $VERSION https://github.com/att-comdev/drydock.git /tmp/drydock
 
