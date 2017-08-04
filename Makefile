@@ -22,7 +22,7 @@ IMAGES := \
 	helm:v2.1.3 \
 	kolla-builder:latest \
 	kube-controller-manager:latest \
-	kube-controller-manager:v1.6.7 \
+	kube-controller-manager:v1.6.8 \
 	kvm-manager:latest \
 	openvswitch-vswitchd:latest \
 	rabbitmq:3.7.0-pre-15 \
