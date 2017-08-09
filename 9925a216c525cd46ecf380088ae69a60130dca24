@@ -22,6 +22,30 @@
       "revId": "9925a216c525cd46ecf380088ae69a60130dca24",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d159f4_15f7f0c5",
+        "filename": "airflow/Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011947
+      },
+      "writtenOn": "2017-08-09T16:09:01Z",
+      "side": 1,
+      "message": "You are right.  I don\u0027t have the access rights to quay.io/attcomdev/ and have been building it on my local machine before pushing it to my account in dockerhub.  I am guessing that the actual repo would probably be something like\n\nhttp://quay.io/attcomdev/airflow:master",
+      "parentUuid": "65e88354_af63aad2",
+      "range": {
+        "startLine": 5,
+        "startChar": 14,
+        "endLine": 5,
+        "endChar": 30
+      },
+      "revId": "9925a216c525cd46ecf380088ae69a60130dca24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
