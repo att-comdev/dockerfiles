@@ -6,7 +6,7 @@ POSTGRES_HOST="postgresql"
 POSTGRES_PORT="5432"
 RABBITMQ_HOST="rabbitmq"
 RABBITMQ_PORT="5672"
-FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print FERNET_KEY")
+FERNET_KEY=$(python3 -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
 
 # Generate Fernet key
 sed -i "s/{FERNET_KEY}/${FERNET_KEY}/" /usr/local/airflow/airflow.cfg

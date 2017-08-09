@@ -21,7 +21,9 @@ ENV LC_ALL en_US.UTF-8
 
 RUN set -ex \
     && buildDeps=' \
-        python-dev \
+        python3-dev \
+        python3-setuptools \
+        cython3 \
         libkrb5-dev \
         libsasl2-dev \
         libssl-dev \
@@ -38,8 +40,8 @@ RUN set -ex \
     && apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
-        python-pip \
-        python-requests \
+        python3-pip \
+        python3-requests \
         apt-utils \
         curl \
         netcat \
@@ -48,17 +50,15 @@ RUN set -ex \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
-    && python -m pip install -U pip \
-    && pip install setuptools \
-    && pip install Cython \
-    && pip install pytz \
-    && pip install pyOpenSSL \
-    && pip install ndg-httpsclient \
-    && pip install pyasn1 \
-    && pip install psycopg2 \
-    && pip install docker-py>=1.6.0 \
-    && pip install apache-airflow[crypto,celery,postgres,hive,hdfs,jdbc]==$AIRFLOW_VERSION \
-    && pip install python-openstackclient==3.11.0 \
+    && python3 -m pip install -U pip \
+    && pip3 install pytz \
+    && pip3 install pyOpenSSL \
+    && pip3 install ndg-httpsclient \
+    && pip3 install pyasn1 \
+    && pip3 install psycopg2 \
+    && pip3 install docker-py>=1.6.0 \
+    && pip3 install apache-airflow[crypto,celery,postgres,hive,hdfs,jdbc]==$AIRFLOW_VERSION \
+    && pip3 install python-openstackclient==3.11.0 \
     && apt-get remove --purge -yqq $buildDeps \
     && apt-get clean \
     && rm -rf \
