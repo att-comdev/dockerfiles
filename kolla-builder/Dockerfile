@@ -1,78 +1,71 @@
-FROM ubuntu:16.04
-MAINTAINER bjozsa@att.com
+FROM gcr.io/google_containers/ubuntu-slim:0.13
 
+ENV DEBIAN_FRONTEND=noninteractive \
+    KOLLA_VERSION="5.0.0.0b3" \
+    KOLLA_IMAGE_TAG="newton" \
+    KOLLA_IMAGE_MAINTAINER="Pete Birley (pete.birley@att.com)" \
+    KOLLA_CONFIG="/etc/kolla/kolla-build.conf" \
+    OPENSTACK_SOURCE="git" \
+    OPENSTACK_SOURCE_ROOT="https://git.openstack.org/openstack" \
+    OPENSTACK_VERSION="stable/newton" \
+    OPENSTACK_ALT_VERSION="stable/ocata" \
+    DOCKER_NAMESPACE="quay.io/attcomdev"
 
-ENV KOLLA_BASE=ubuntu \
-    KOLLA_TYPE=source \
-    KOLLA_TAG=3.0.1 \
-    KOLLA_PROJECT=keystone \
-    KOLLA_NAMESPACE=kolla \
-    KOLLA_VERSION=3.0.1 \
-    DOCKER_USER=docker-user \
-    DOCKER_PASS=docker-pass \
-    DOCKER_REGISTRY=quay.io \
-    DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && \
-    apt-get install -y \
-        build-essential \
+RUN set -x \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
         git \
-        git-review \
-        python-virtualenv \
+        python-pip \
+        ca-certificates \
+        docker.io \
+        build-essential \
         python-dev \
         python-pip \
-        gcc \
+        python-virtualenv \
         libssl-dev \
-        libffi-dev \
-        crudini \
-        jq \
-        sshpass \
-        hostname \
-        supervisor \
-        locales \
-        iptables \
-        ca-certificates \
-        lxc \
-        apt-transport-https \
-        supervisor \
-        sudo \
-        python3 \
-        curl \
-        screen \
-        docker.io
+    && pip install -U pip \
+    && pip install -U wheel setuptools \
+    && pip install tox \
+    && git clone http://git.openstack.org/openstack/kolla.git /opt/kolla \
+    && cd /opt/kolla \
+    && git checkout tags/$KOLLA_VERSION \
+    && tox -egenconfig \
+    && mkdir -p /etc/kolla \
+    && mv etc/kolla/kolla-build.conf /etc/kolla/ \
+    && rm -rf  .tox \
+    && pip install . -r /opt/kolla/requirements.txt \
+    && pip install crudini
 
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN set -x \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT base "ubuntu" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT base_image "docker.io/ubuntu" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT base_tag "16.04" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT base_arch "x86_64" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT namespace "${DOCKER_NAMESPACE}" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT install_type "source" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT threads "1" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT tag "${KOLLA_IMAGE_TAG}" \
+    && mkdir -p /var/lib/kolla \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT work_dir "/var/lib/kolla" \
+    && crudini --set ${KOLLA_CONFIG} DEFAULT maintainer "${KOLLA_IMAGE_MAINTAINER}" \
+    && for PARAM in type location reference; do \
+        sed -i "s/^#${PARAM}/${PARAM}/g" ${KOLLA_CONFIG}; \
+       done
 
-COPY scripts/start.sh /usr/local/bin/start.sh
-COPY scripts/wrapdocker /usr/local/bin/wrapdocker
-COPY scripts/clean.sh /usr/local/bin/clean.sh
-COPY scripts/supervisord.conf /etc/supervisor/conf.d/wrapdocker.conf
-COPY scripts/kolla-push.sh /usr/local/bin/kolla-push.sh
-
-RUN chmod +x /usr/local/bin/start.sh && \
-    chmod +x /usr/local/bin/wrapdocker && \
-    chmod +x /usr/local/bin/clean.sh && \
-    chmod +x /etc/supervisor/conf.d/wrapdocker.conf && \
-    chmod +x /usr/local/bin/kolla-push.sh
-
-WORKDIR /root
-
-RUN git clone http://git.openstack.org/openstack/kolla.git ./kolla-$KOLLA_VERSION && \
-    cd ./kolla-$KOLLA_VERSION && \
-    git checkout tags/$KOLLA_VERSION
-
-RUN mkdir -p .venv && \
-    virtualenv .venv/kolla-builds && \
-    . .venv/kolla-builds/bin/activate && \
-    cd ./kolla-$KOLLA_VERSION && \
-    pip install -e . && \
-    mkdir -p /etc/kolla
-
-RUN mkdir -p /root/.kolla-$KOLLA_VERSION/src/$KOLLA_PROJECT && \
-    git clone http://git.openstack.org/openstack/keystone.git /tmp/kolla/src/keystone 
-
-COPY oslo_config/kolla-build.conf /etc/kolla/kolla-build.conf
-
-WORKDIR /root/.kolla-$KOLLA_VERSION
-
-CMD ["/usr/local/bin/start.sh"]
+RUN set -x \
+    && crudini --get ${KOLLA_CONFIG} | while read SECTION; do \
+        (LOCATION=$(crudini --get /etc/kolla/kolla-build.conf ${SECTION} location 2> /dev/null ) && \
+        echo $LOCATION | grep -q ^\$tarballs_base/ && ( \
+          crudini --set ${KOLLA_CONFIG} ${SECTION} type ${OPENSTACK_SOURCE}; \
+          LOCATION=${LOCATION#\$tarballs_base/}; \
+          crudini --set ${KOLLA_CONFIG} ${SECTION} location "${OPENSTACK_SOURCE_ROOT}/${LOCATION%/*}"; \
+          crudini --set ${KOLLA_CONFIG} ${SECTION} reference "${OPENSTACK_VERSION}"; \
+          bash -c "if [[ $SECTION == horizon* ]]; then crudini --set ${KOLLA_CONFIG} ${SECTION} reference "${OPENSTACK_ALT_VERSION}"; fi"; \
+           ) || true) \
+      done \
+   && crudini --set ${KOLLA_CONFIG} horizon-plugin-zun-ui reference "master" \
+   && crudini --set ${KOLLA_CONFIG} profiles openstack_helm_services "barbican,ceilometer,cinder,glance,heat,keystone,mistral,neutron,nova-,senlin,swift" \
+   && crudini --set ${KOLLA_CONFIG} DEFAULT profile openstack_helm_services \
+   && crudini --set ${KOLLA_CONFIG} profiles openstack_helm_wui "horizon" \
+   && crudini --set ${KOLLA_CONFIG} DEFAULT profile openstack_helm_wui
