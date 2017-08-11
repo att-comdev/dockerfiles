@@ -3,29 +3,30 @@
 
 # Overview
 
-This container builds kolla 5.0.0 ubuntu images from upstream newton source.
+This container builds kolla newton ubuntu images from upstream newton source.
 
 # Instructions
 
 To build the image run:
 
 ```
-docker build . -t quay.io/attcomdev/kolla-builder:5.0.0.0b3
+docker build . -t quay.io/attcomdev/kolla-horizon-builder:newton
 ```
 
-To build openstack-helm service images run:
+
+To build horizon images for openstack-helm run:
 
 ```
 docker run -it --rm \
   -v /var/run/docker.sock:/var/run/docker.sock:rw \
   -v /var/lib/kolla:/var/lib/kolla:rw \
   -v ${HOME}/.docker:/root/.docker:rw \
-  quay.io/attcomdev/kolla-builder:5.0.0.0b3 \
+  quay.io/attcomdev/kolla-horizon-builder:newton \
     kolla-build \
-      --profile openstack_helm_services \
-      --tag kolla-5.0.0.0b3-newton \
+      --profile openstack_helm_wui \
+      --tag kolla-stable-newton \
       --namespace gantry \
-      --debug
+      --push
 ```
 
 Between builds you will want to clean the build host:

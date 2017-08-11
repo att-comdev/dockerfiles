@@ -1,8 +1,8 @@
 FROM gcr.io/google_containers/ubuntu-slim:0.13
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    KOLLA_VERSION="5.0.0.0b3" \
-    KOLLA_IMAGE_TAG="kolla-5.0.0.0b3-newton" \
+    KOLLA_VERSION="stable/newton" \
+    KOLLA_IMAGE_TAG="kolla-stable-newton" \
     KOLLA_IMAGE_MAINTAINER="Pete Birley (pete.birley@att.com)" \
     KOLLA_CONFIG="/etc/kolla/kolla-build.conf" \
     OPENSTACK_SOURCE="git" \
@@ -28,7 +28,7 @@ RUN set -x \
     && pip install tox \
     && git clone http://git.openstack.org/openstack/kolla.git /opt/kolla \
     && cd /opt/kolla \
-    && git checkout tags/$KOLLA_VERSION \
+    && git checkout $KOLLA_VERSION \
     && tox -egenconfig \
     && mkdir -p /etc/kolla \
     && mv etc/kolla/kolla-build.conf /etc/kolla/ \
@@ -53,16 +53,9 @@ RUN set -x \
        done
 
 RUN set -x \
-    && crudini --get ${KOLLA_CONFIG} | while read SECTION; do \
-        (LOCATION=$(crudini --get /etc/kolla/kolla-build.conf ${SECTION} location 2> /dev/null ) && \
-        echo $LOCATION | grep -q ^\$tarballs_base/ && ( \
-          crudini --set ${KOLLA_CONFIG} ${SECTION} type ${OPENSTACK_SOURCE}; \
-          LOCATION=${LOCATION#\$tarballs_base/}; \
-          crudini --set ${KOLLA_CONFIG} ${SECTION} location "${OPENSTACK_SOURCE_ROOT}/${LOCATION%/*}"; \
-          crudini --set ${KOLLA_CONFIG} ${SECTION} reference "${OPENSTACK_VERSION}"; \
-           ) || true) \
-      done \
    && crudini --set ${KOLLA_CONFIG} profiles openstack_helm_services "barbican,ceilometer,cinder,glance,heat,keystone,mistral,neutron,nova-,senlin,swift" \
    && crudini --set ${KOLLA_CONFIG} DEFAULT profile openstack_helm_services \
    && crudini --set ${KOLLA_CONFIG} profiles openstack_helm_wui "horizon" \
    && crudini --set ${KOLLA_CONFIG} DEFAULT profile openstack_helm_wui
+
+ #kolla-build          --tag newton       --base ubuntu --type source horizon
