@@ -76,6 +76,7 @@ ENV KUBECTL_VERSION %%KUBECTL_VERSION%%
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x /usr/local/bin/kubectl
 
 COPY script/entrypoint.sh ${AIRFLOW_HOME}/entrypoint.sh
+COPY script/airflow_start_service.sh ${AIRFLOW_HOME}/airflow_start_service.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
 RUN chown -R airflow: ${AIRFLOW_HOME} \
