@@ -12,6 +12,7 @@ DOCKERFILE ?= $(BUILD_ROOT)/Dockerfile
 ROOTFS ?= $(BUILD_ROOT)/rootfs
 AIRFLOW_CONF ?= $(BUILD_ROOT)/config/airflow.cfg
 ENTRYPOINT_SH ?= $(BUILD_ROOT)/script/entrypoint.sh
+AIRFLOW_START_SERVICE_SH ?= $(BUILD_ROOT)/script/airflow_start_service.sh
 DOCKER_CACHE ?= docker-cache
 SAVED_IMAGE ?= $(DOCKER_CACHE)/image-$(AIRFLOW_VERSION)-$(KUBECTL_VERSION).tar
 
@@ -22,7 +23,7 @@ NAMESPACE ?= airflow
 clean:
 	rm -Rf build
 
-build: $(DOCKERFILE) $(ROOTFS) $(AIRFLOW_CONF) $(ENTRYPOINT_SH)
+build: $(DOCKERFILE) $(ROOTFS) $(AIRFLOW_CONF) $(ENTRYPOINT_SH) $(AIRFLOW_START_SERVICE_SH)
 	cd $(BUILD_ROOT) && docker build -t $(IMAGE) . && docker tag $(IMAGE) $(ALIAS)
 
 publish:
@@ -42,6 +43,10 @@ $(AIRFLOW_CONF): $(BUILD_ROOT)
 $(ENTRYPOINT_SH): $(BUILD_ROOT)
 	mkdir -p $(shell dirname $(ENTRYPOINT_SH))
 	cp script/entrypoint.sh $(ENTRYPOINT_SH)
+
+$(AIRFLOW_START_SERVICE_SH): $(BUILD_ROOT)
+	mkdir -p $(shell dirname $(AIRFLOW_START_SERVICE_SH))
+	cp script/airflow_start_service.sh $(AIRFLOW_START_SERVICE_SH)
 
 $(BUILD_ROOT):
 	mkdir -p $(BUILD_ROOT)
