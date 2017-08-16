@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CMD="airflow"
+CMD="bash /usr/local/airflow/airflow_start_service.sh"
 TRY_LOOP="10"
 POSTGRES_HOST="postgresql"
 POSTGRES_PORT="5432"
