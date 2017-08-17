@@ -16,6 +16,24 @@
       "revId": "569dbcf534d527ad48c62eef256479ce959d9e1f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd9ce9dc_41e5d88e",
+        "filename": "airflow/script/airflow_start_service.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011947
+      },
+      "writtenOn": "2017-08-17T21:38:27Z",
+      "side": 1,
+      "message": "Hi Scott, as discussed, the airflow scheduler will keep running after the command is executed.  It will get killed later when the tasks are being scheduled and executed.  The process will exit and start over again after that.",
+      "parentUuid": "4402174d_b4213b1c",
+      "revId": "569dbcf534d527ad48c62eef256479ce959d9e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
