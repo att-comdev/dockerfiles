@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a8e8de3_18d6bbc1",
+        "filename": "kolla-builder/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011942
+      },
+      "writtenOn": "2017-08-17T03:06:11Z",
+      "side": 1,
+      "message": "Is this setup also compatible with ocata?",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "0e6c55218d2d6e3d3e35ae820ffa5b4b3ed49b8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
