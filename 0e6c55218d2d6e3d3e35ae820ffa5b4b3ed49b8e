@@ -22,6 +22,29 @@
       "revId": "0e6c55218d2d6e3d3e35ae820ffa5b4b3ed49b8e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d485bae0_64f1c750",
+        "filename": "kolla-builder/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1008770
+      },
+      "writtenOn": "2017-08-17T03:15:00Z",
+      "side": 1,
+      "message": "is this still the correct link?",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 83
+      },
+      "revId": "0e6c55218d2d6e3d3e35ae820ffa5b4b3ed49b8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
