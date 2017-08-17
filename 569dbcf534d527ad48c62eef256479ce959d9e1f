@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4402174d_b4213b1c",
+        "filename": "airflow/script/airflow_start_service.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011939
+      },
+      "writtenOn": "2017-08-17T20:43:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure you need the sleep here. `eval` isn\u0027t a fork, so this script will block while the airflow command is running unless /usr/local/bin/airflow daemonizes itself.",
+      "revId": "569dbcf534d527ad48c62eef256479ce959d9e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
