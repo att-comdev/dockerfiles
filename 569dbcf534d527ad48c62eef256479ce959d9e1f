@@ -34,6 +34,24 @@
       "revId": "569dbcf534d527ad48c62eef256479ce959d9e1f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8706c785_450ba10c",
+        "filename": "airflow/script/airflow_start_service.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011947
+      },
+      "writtenOn": "2017-08-18T01:06:17Z",
+      "side": 1,
+      "message": "Thanks Scott for the discussion.  I agree that in this case there is no need for \u0027if/else\u0027 conditions as the process is running in the foreground.  I have removed that and have removed the 5 seconds buffer as well.",
+      "parentUuid": "dd9ce9dc_41e5d88e",
+      "revId": "569dbcf534d527ad48c62eef256479ce959d9e1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
