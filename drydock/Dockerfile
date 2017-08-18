@@ -36,7 +36,7 @@ RUN set -x \
        python3-setuptools \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone -b $VERSION https://github.com/att-comdev/drydock.git /tmp/drydock
+RUN git clone -b $VERSION https://github.com/sh8121att/drydock.git /tmp/drydock
 
 WORKDIR /tmp/drydock
 
@@ -44,4 +44,4 @@ RUN python3 setup.py install
 
 EXPOSE 9000
 
-CMD ["/usr/bin/uwsgi","--http",":9000","-w","drydock_provisioner.drydock","--callable","drydock","--enable-threads","-L"]
+CMD ["/usr/bin/uwsgi","--http",":9000","-w","drydock_provisioner.drydock","--callable","drydock","--enable-threads","-L","--pyargv","--config-file /etc/drydock/drydock.conf"]
