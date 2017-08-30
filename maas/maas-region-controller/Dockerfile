@@ -40,7 +40,7 @@ RUN rsyslogd; apt-get install -y maas-cli \
 
 
 RUN apt-get download maas-region-controller && \
-# remove postinstall script in order to avoid writing data to postgres
+# remove postinstall script in order to avoid db_sync
     dpkg-deb --extract maas-region-controller*.deb maas-region-controller && \
     dpkg-deb --control maas-region-controller*.deb maas-region-controller/DEBIAN && \
     rm maas-region-controller/DEBIAN/postinst && \
@@ -50,18 +50,6 @@ RUN apt-get download maas-region-controller && \
 
 # potentially used to calculate cidrs
 RUN pip3 install netaddr
-
-# we'll create a service which will help create our
-# provisioning network when the maas API
-# gets instantiated
-COPY scripts/create-provisioning-network.service /lib/systemd/system/create-provisioning-network.service
-COPY scripts/create-provisioning-network.sh /usr/local/bin
-RUN chmod +x /usr/local/bin/create-provisioning-network.sh
-RUN systemctl enable create-provisioning-network.service
-
-# Fix for the gateway change bug in MAAS regiond version 2.1 from (alanmeadows)
-COPY scripts/gateway-fix.patch /tmp/gateway-fix.patch
-RUN cd /usr/lib/python3/dist-packages/maasserver/models/ && patch -p2 < /tmp/gateway-fix.patch
 
 # initalize systemd
 CMD ["/sbin/init"]
