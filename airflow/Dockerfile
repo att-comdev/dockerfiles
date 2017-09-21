@@ -1,4 +1,4 @@
-# VERSION 1.8.1
+# VERSION 1.8.2
 # DESCRIPTION: Docker image to run Airflow on Kubernetes which is capable of creating Kubernetes jobs
 
 FROM ubuntu:16.04
@@ -87,4 +87,3 @@ EXPOSE 8080 5555 8793
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
 ENTRYPOINT ["./entrypoint.sh"]
-
