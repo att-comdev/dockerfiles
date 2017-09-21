@@ -1,4 +1,4 @@
-# VERSION 1.8.1
+# VERSION 1.8.2
 # DESCRIPTION: Docker image to run Airflow on Kubernetes which is capable of creating Kubernetes jobs
 
 FROM ubuntu:16.04
@@ -32,7 +32,6 @@ RUN set -ex \
         libblas-dev \
         liblapack-dev \
         libpq-dev \
-        git \
         libxml2-dev \
         libxml2 \
         libxmlsec1-dev \
@@ -46,6 +45,7 @@ RUN set -ex \
         curl \
         netcat \
         locales \
+        git \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
@@ -75,6 +75,14 @@ ENV KUBECTL_VERSION %%KUBECTL_VERSION%%
 
 RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x /usr/local/bin/kubectl
 
+# Clone Shipyard Repository to retrieve Dags and Operators
+# Create dags and plugins directories and copy the dags and operators to it
+RUN git clone https://github.com/att-comdev/shipyard.git ${AIRFLOW_HOME}/shipyard
+RUN mkdir ${AIRFLOW_HOME}/dags
+RUN mkdir ${AIRFLOW_HOME}/plugins
+RUN cd ${AIRFLOW_HOME}/shipyard/shipyard_airflow/dags && cp *.py ${AIRFLOW_HOME}/dags/
+RUN cd ${AIRFLOW_HOME}/shipyard/shipyard_airflow/plugins && cp *.py ${AIRFLOW_HOME}/plugins/
+
 COPY script/entrypoint.sh ${AIRFLOW_HOME}/entrypoint.sh
 COPY script/airflow_start_service.sh ${AIRFLOW_HOME}/airflow_start_service.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
@@ -87,4 +95,3 @@ EXPOSE 8080 5555 8793
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
 ENTRYPOINT ["./entrypoint.sh"]
-
