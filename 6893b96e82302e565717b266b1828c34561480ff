@@ -22,6 +22,30 @@
       "revId": "6893b96e82302e565717b266b1828c34561480ff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f8c6648_16c2670f",
+        "filename": "airflow/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011947
+      },
+      "writtenOn": "2017-09-22T14:19:15Z",
+      "side": 1,
+      "message": "Good point.  I will remove it.",
+      "parentUuid": "0e1d0eaa_0f64dbf8",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "6893b96e82302e565717b266b1828c34561480ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
