@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e1d0eaa_0f64dbf8",
+        "filename": "airflow/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008770
+      },
+      "writtenOn": "2017-09-22T04:32:06Z",
+      "side": 1,
+      "message": "minor nit: can we remove this comment?  As we update versions later, it is just 1 additional place we can forget to update causing the code to be out of sync.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "6893b96e82302e565717b266b1828c34561480ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
