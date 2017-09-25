@@ -37,16 +37,6 @@ RUN chmod +x /usr/local/bin/register-rack-controller.sh
 COPY scripts/register-rack-controller.service /lib/systemd/system/register-rack-controller.service
 RUN systemctl enable register-rack-controller.service
 
-# apply patch from alanmeadows that helps deal with sophisticated host networks
-RUN apt-get install -y patch
-COPY scripts/rackd.patch /tmp/rackd.patch
-RUN cd /usr/lib/python3/dist-packages/provisioningserver/utils/ && patch -p2 < /tmp/rackd.patch
-
-# TODO(alanmeadows): proliant ipmi issue
-# https://bugs.launchpad.net/maas/+bug/1516065
-COPY scripts/ipmi.patch /tmp/ipmi.patch
-RUN cd /usr/lib/python3/dist-packages/provisioningserver/drivers/power && patch -p0 < /tmp/ipmi.patch
-
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 RUN ln -s /usr/bin/tcpdump /usr/sbin/tcpdump
 
