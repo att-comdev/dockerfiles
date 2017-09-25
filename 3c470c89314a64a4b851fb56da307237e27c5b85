@@ -22,6 +22,30 @@
       "revId": "3c470c89314a64a4b851fb56da307237e27c5b85",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7799fad_f926acad",
+        "filename": "airflow/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011947
+      },
+      "writtenOn": "2017-09-25T18:04:29Z",
+      "side": 1,
+      "message": "Agree.  I will make changes to it in another Patch Set.",
+      "parentUuid": "71337e2a_919cf428",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "3c470c89314a64a4b851fb56da307237e27c5b85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
