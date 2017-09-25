@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71337e2a_919cf428",
+        "filename": "airflow/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010324
+      },
+      "writtenOn": "2017-09-25T15:24:13Z",
+      "side": 1,
+      "message": "should this not be an arg?",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "3c470c89314a64a4b851fb56da307237e27c5b85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
