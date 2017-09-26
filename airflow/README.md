@@ -1,5 +1,7 @@
-## Build ##
+## Docker Build ##
+
+We can build the airflow image by executing the following command:
 
 ```
-make build
+docker build -t attcomdev/airflow-helm:v0.1.0 .
 ```

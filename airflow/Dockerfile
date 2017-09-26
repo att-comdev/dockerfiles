@@ -1,65 +1,39 @@
-# DESCRIPTION: Docker image to run Airflow on Kubernetes which is capable of creating Kubernetes jobs
+# Docker image to run Airflow on Kubernetes
 
 FROM ubuntu:16.04
 
-# Never prompts the user for choices on installation/configuration of packages
+# Do not prompt user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
-ENV TERM linux
+ENV container docker
 
-# Airflow
-ARG AIRFLOW_VERSION=%%AIRFLOW_VERSION%%
+# Airflow Home Directory
 ARG AIRFLOW_HOME=/usr/local/airflow
 
-# Define en_US.
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-ENV LC_CTYPE en_US.UTF-8
-ENV LC_MESSAGES en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+# Kubectl version
+ARG KUBECTL_VERSION=1.7.5
 
-RUN set -ex \
-    && buildDeps=' \
-        python3-dev \
-        python3-setuptools \
-        cython3 \
-        libkrb5-dev \
-        libsasl2-dev \
-        libssl-dev \
-        libffi-dev \
-        build-essential \
-        libblas-dev \
-        liblapack-dev \
-        libpq-dev \
-        git \
-        libxml2-dev \
-        libxml2 \
-        libxmlsec1-dev \
-    ' \
-    && apt-get update -yqq \
-    && apt-get install -yqq --no-install-recommends \
-        $buildDeps \
-        python3-pip \
-        python3-requests \
-        apt-utils \
-        curl \
-        netcat \
-        locales \
-    && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
-    && locale-gen \
-    && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
-    && useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow \
+RUN set -ex && \
+    apt-get -qq update && \
+    apt-get -y install \
+    ca-certificates \
+    curl \
+    gcc \
+    git \
+    g++ \
+    libffi-dev \
+    libssl-dev \
+    libpq-dev \
+    locales \
+    netcat \
+    netbase \
+    python3 \
+    python3-setuptools \
+    python3-pip \
+    python3-dev \
+    python3-dateutil \
+    make \
+    --no-install-recommends \
     && python3 -m pip install -U pip \
-    && pip3 install pytz \
-    && pip3 install pyOpenSSL \
-    && pip3 install ndg-httpsclient \
-    && pip3 install pyasn1 \
-    && pip3 install psycopg2 \
-    && pip3 install docker-py>=1.6.0 \
-    && pip3 install apache-airflow[crypto,celery,postgres,hive,hdfs,jdbc]==$AIRFLOW_VERSION \
-    && pip3 install python-openstackclient==3.11.0 \
-    && pip3 install -e git://github.com/att-comdev/drydock.git#egg=drydock \
-    && apt-get remove --purge -yqq $buildDeps \
     && apt-get clean \
     && rm -rf \
         /var/lib/apt/lists/* \
@@ -69,20 +43,36 @@ RUN set -ex \
         /usr/share/doc \
         /usr/share/doc-base
 
+# Copy dependency requirements
+# Install DryDock libraries
+COPY ./requirements.txt /tmp/
+RUN pip3 install -r /tmp/requirements.txt
+RUN pip3 install -e git://github.com/att-comdev/drydock.git#egg=drydock
 
-ENV KUBECTL_VERSION %%KUBECTL_VERSION%%
+# Create airflow user
+RUN useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow
 
-RUN curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x /usr/local/bin/kubectl
+# Download and install kubectl
+RUN curl -L -o /usr/local/bin/kubectl \
+    https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
+    && chmod +x /usr/local/bin/kubectl
 
+# Copy entrypoint.sh and airflow_start_service.sh
 COPY script/entrypoint.sh ${AIRFLOW_HOME}/entrypoint.sh
 COPY script/airflow_start_service.sh ${AIRFLOW_HOME}/airflow_start_service.sh
-COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
+# Change permissions
 RUN chown -R airflow: ${AIRFLOW_HOME} \
     && chmod +x ${AIRFLOW_HOME}/entrypoint.sh
 
+# Expose port 8080 for Airflow Web
+# Expose port 5555 for Airflow Flower
+# Expose port 8793 for Airflow Worker
 EXPOSE 8080 5555 8793
 
+# Set work directory
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
+
+# Execute entrypoint
 ENTRYPOINT ["./entrypoint.sh"]
