@@ -20,3 +20,5 @@ psycopg2==2.7.3.1
 docker-py==1.6.0
 apache-airflow[crypto,celery,postgres,hive,hdfs,jdbc]==1.8.2
 python-openstackclient==3.11.0
+sphinx>=1.6.2
+sphinx_rtd_theme==0.2.4
