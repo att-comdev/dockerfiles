@@ -45,9 +45,11 @@ RUN set -ex && \
 
 # Copy dependency requirements
 # Install DryDock libraries
+# Install Armada libraries
 COPY ./requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt
-RUN pip3 install -e git://github.com/att-comdev/drydock.git#egg=drydock
+RUN pip3 install -e git://github.com/att-comdev/drydock.git#egg=drydock_provisioner
+RUN pip3 install -e git://github.com/att-comdev/armada.git#egg=armada
 
 # Create airflow user
 RUN useradd -ms /bin/bash -d ${AIRFLOW_HOME} airflow
