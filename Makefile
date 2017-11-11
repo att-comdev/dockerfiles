@@ -80,6 +80,7 @@ Usage:
 
 To build all images:
 	make build
+	make images
 
 To build a specific image:
 	make build:<image>[:<tag>]
@@ -95,6 +96,7 @@ export usage_text
 help usage:
 	@echo "$$usage_text"
 
+images: $(call escape_colons, $(BUILD_TASK_DIRS))
 
 build: $(call escape_colons, $(BUILD_TASK_DIRS))
 
