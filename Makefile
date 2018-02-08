@@ -17,6 +17,7 @@
 #---------------#
 IMAGES := \
 	ceph-daemon:latest \
+	fluentd-exporter:v0.1.0 \
 	helm:latest \
 	helm:ubuntu-v2.1.3 \
 	helm:v2.1.3 \
