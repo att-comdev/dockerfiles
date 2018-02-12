@@ -24,6 +24,7 @@ IMAGES := \
 	kube-controller-manager:latest \
 	kube-controller-manager:v1.6.8 \
 	kvm-manager:latest \
+	nagios:v0.1.0 \
 	openvswitch-vswitchd:latest \
 	rabbitmq:3.7.0-pre-15 \
 

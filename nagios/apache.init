@@ -1,0 +1,8 @@
+#!/bin/bash
+. /etc/apache2/envvars
+
+. /etc/default/apache-htcacheclean
+
+export TZ="${NAGIOS_TIMEZONE}"
+
+exec /usr/sbin/apache2 -D NO_DETACH
