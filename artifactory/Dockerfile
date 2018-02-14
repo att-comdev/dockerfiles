@@ -1,4 +1,4 @@
-FROM docker.bintray.io/jfrog/artifactory-pro:5.8.3
+FROM docker.bintray.io/jfrog/artifactory-pro:5.8.4
 
 RUN curl -s --location-trusted https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.45.tar.gz | \
     tar --wildcards -zx '*mysql-connector-java-5.1.45-bin.jar' && \
