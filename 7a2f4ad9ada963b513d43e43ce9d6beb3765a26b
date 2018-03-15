@@ -1,0 +1,9 @@
+Code-Review+2: Craig Anderson <craig.anderson@att.com>
+Code-Review+2: Kaspars Skels <kaspars.skels@gmail.com>
+Workflow+1: Chris Wedgwood <cw@f00f.org>
+Verified+1: Jenkins <attcomdev.jenkins@gmail.com>
+Submitted-by: Jenkins <attcomdev.jenkins@gmail.com>
+Submitted-at: Thu, 15 Mar 2018 14:11:26 -0400
+Reviewed-on: https://review.gerrithub.io/403572
+Project: att-comdev/dockerfiles
+Branch: refs/heads/master
