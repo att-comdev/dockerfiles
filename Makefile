@@ -26,6 +26,7 @@ IMAGES := \
 	kvm-manager:latest \
 	openvswitch-vswitchd:latest \
 	rabbitmq:3.7.0-pre-15 \
+	nagios:v0.1.0 \
 
 DEFAULT_NAMESPACE := quay.io/attcomdev
 
