@@ -1,0 +1,15 @@
+# Testing
+pytest==3.2.1
+pytest-cov==2.5.1
+mock==2.0.0
+responses==0.8.1
+testfixtures==5.1.1
+
+# Linting
+flake8==3.3.0
+
+# Security scanning
+bandit>=1.1.0 # Apache-2.0
+
+#application
+requests==2.18.4
