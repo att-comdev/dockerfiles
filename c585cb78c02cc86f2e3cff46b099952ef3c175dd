@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "9366462e_61ed6e4b",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T20:19:01Z",
+      "side": 1,
+      "message": "no, doesn\u0027t help clarity",
+      "parentUuid": "be360767_5b14fb2a",
+      "range": {
+        "startLine": 3,
+        "startChar": 100,
+        "endLine": 3,
+        "endChar": 106
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9210a2ca_1b9248f8",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T20:19:01Z",
+      "side": 1,
+      "message": "because of redirects",
+      "parentUuid": "f2625a5e_41005c0f",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2d527b8_595ee90f",
         "filename": "artifactory/Dockerfile",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-03-23T19:58:15Z",
       "side": 1,
       "message": "tar ... --overwrite --directory /opt/jfrog/artifactory/tomcat/lib/ ...",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 110
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "204a6be6_16b8454e",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T20:19:01Z",
+      "side": 1,
+      "message": "i will test that",
+      "parentUuid": "c2d527b8_595ee90f",
       "range": {
         "startLine": 5,
         "startChar": 4,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "91d52435_54b9a37a",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T20:19:01Z",
+      "side": 1,
+      "message": "maybe",
+      "parentUuid": "315704a4_e6db7590",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 37
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13f601e5_9e0cc2dd",
         "filename": "artifactory/Dockerfile",
         "patchSetId": 2
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "78bb35db_6419b6c3",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T20:19:01Z",
+      "side": 1,
+      "message": "man grep\nman xargs",
+      "parentUuid": "13f601e5_9e0cc2dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f164d7e_f43e683a",
         "filename": "artifactory/Dockerfile",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2018-03-23T19:58:15Z",
       "side": 1,
       "message": "Remove everything from here, not just -4",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd1cf7c3_bdcbf9ae",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T20:19:01Z",
+      "side": 1,
+      "message": "perhaps\n\nthis ad-hoc logic was to avoid making the layer any bigger than it already has to be",
+      "parentUuid": "9f164d7e_f43e683a",
       "range": {
         "startLine": 13,
         "startChar": 9,
