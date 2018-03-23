@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9577b17a_49708aac",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T17:18:18Z",
+      "side": 1,
+      "message": "i like tabs\ntabs are good\ni see no reason not to have a tab here",
+      "parentUuid": "71b3451b_be7fb9d6",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "95982397ba64dd54348ded1d321ad22956e6ad42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37784945_2fa62023",
         "filename": "artifactory/Dockerfile",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-23T17:16:23Z",
       "side": 1,
       "message": "should we not put this right after the from?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "95982397ba64dd54348ded1d321ad22956e6ad42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73395329_dff34deb",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-23T17:18:18Z",
+      "side": 1,
+      "message": "the outcome isn\u0027t any different but the layering means we get more churn as we tweak that last statement",
+      "parentUuid": "37784945_2fa62023",
       "range": {
         "startLine": 8,
         "startChar": 0,
