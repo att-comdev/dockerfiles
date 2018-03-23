@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71b3451b_be7fb9d6",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010324
+      },
+      "writtenOn": "2018-03-23T17:16:23Z",
+      "side": 1,
+      "message": "le tabs",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "95982397ba64dd54348ded1d321ad22956e6ad42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37784945_2fa62023",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010324
+      },
+      "writtenOn": "2018-03-23T17:16:23Z",
+      "side": 1,
+      "message": "should we not put this right after the from?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "95982397ba64dd54348ded1d321ad22956e6ad42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
