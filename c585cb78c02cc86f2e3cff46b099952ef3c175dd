@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ca4665df_349937cf",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2018-03-23T21:43:06Z",
+      "side": 1,
+      "message": "-L/--location?",
+      "parentUuid": "9210a2ca_1b9248f8",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2d527b8_595ee90f",
         "filename": "artifactory/Dockerfile",
         "patchSetId": 2
@@ -237,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "39c823e0_ab4b88fa",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2018-03-23T21:43:06Z",
+      "side": 1,
+      "message": "I mean, it\u0027s far from obvious for me to understand why ^h, what is in second column, and what does apt-mark uphold do. Yes, I can RTFM, but excuse me, I\u0027m from RHEL world.",
+      "parentUuid": "78bb35db_6419b6c3",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f164d7e_f43e683a",
         "filename": "artifactory/Dockerfile",
         "patchSetId": 2
@@ -272,6 +320,30 @@
       "side": 1,
       "message": "perhaps\n\nthis ad-hoc logic was to avoid making the layer any bigger than it already has to be",
       "parentUuid": "9f164d7e_f43e683a",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "c585cb78c02cc86f2e3cff46b099952ef3c175dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87d899ed_4473d401",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2018-03-23T21:43:06Z",
+      "side": 1,
+      "message": "I understand, but docker docs recommend to rm /var/lib/apt/lists/* completely. As for removing something in /var/log – this could have side effects.",
+      "parentUuid": "fd1cf7c3_bdcbf9ae",
       "range": {
         "startLine": 13,
         "startChar": 9,
