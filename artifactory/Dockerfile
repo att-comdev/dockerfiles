@@ -6,5 +6,8 @@ RUN curl -s --location-trusted https://dev.mysql.com/get/Downloads/Connector-J/m
     rmdir mysql-connector-java-5.1.45
 
 # useful
-RUN apt-get update && apt-get install -y less && \
-    find /var/lib/apt/lists/ /var/log/ -mmin -3 -type f -print0 | xargs -r0 rm -v
+RUN dpkg -l|grep ^h|awk '{print $2}'|xargs apt-mark unhold && \
+    apt-get update && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y less && \
+    find /var/lib/apt/lists/ /var/log/ -mmin -4 -type f -print0 | xargs -r0 rm -v
