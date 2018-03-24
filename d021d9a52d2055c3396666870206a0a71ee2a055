@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a364e5dd_52472409",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2018-03-24T18:14:14Z",
+      "side": 1,
+      "message": "I don\u0027t know why, but JFrog installs openjdk-8-* from their own custom repository, and then explicitly does \"apt-mark hold openjdk-8-*\" before doing \"apt-get upgrade -y\". So I\u0027m not sure if it\u0027s OK to allow to update openjdk-8-*.\n[info from \"docker history --no-trunc docker.bintray.io/jfrog/artifactory-pro\"]",
+      "range": {
+        "startLine": 8,
+        "startChar": 37,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "d021d9a52d2055c3396666870206a0a71ee2a055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b04a102_2b1df588",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2018-03-24T18:14:14Z",
+      "side": 1,
+      "message": "awk \u0027/^h/ {print $2}\u0027",
+      "range": {
+        "startLine": 8,
+        "startChar": 12,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "d021d9a52d2055c3396666870206a0a71ee2a055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
