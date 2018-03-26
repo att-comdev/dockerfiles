@@ -45,6 +45,54 @@
       "revId": "d021d9a52d2055c3396666870206a0a71ee2a055",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3122972_0043e21e",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-26T02:35:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b04a102_2b1df588",
+      "range": {
+        "startLine": 8,
+        "startChar": 12,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "d021d9a52d2055c3396666870206a0a71ee2a055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d06504d_e7b187ad",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-03-26T02:35:29Z",
+      "side": 1,
+      "message": "i asked about this, what we have is preferable",
+      "parentUuid": "a364e5dd_52472409",
+      "range": {
+        "startLine": 8,
+        "startChar": 37,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "d021d9a52d2055c3396666870206a0a71ee2a055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
