@@ -22,6 +22,30 @@
       "revId": "fbf1bb7a26a4c6ca369bdc5249b83b72b168b267",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "242e87fc_cc0780a2",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-04-06T07:50:08Z",
+      "side": 1,
+      "message": "originally we weren\u0027t but the security scanner was making some people unhappy\n\nwe tested upgrading things and verified it wouldn\u0027t cause support issues so went this route",
+      "parentUuid": "5354d9c5_c7f4dd62",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "fbf1bb7a26a4c6ca369bdc5249b83b72b168b267",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
