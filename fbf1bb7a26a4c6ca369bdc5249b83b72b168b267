@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5354d9c5_c7f4dd62",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012094
+      },
+      "writtenOn": "2018-04-06T03:19:24Z",
+      "side": 1,
+      "message": "I would recommend to exclude this. We should use the tested package versions that come from the source image.\nhttps://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "fbf1bb7a26a4c6ca369bdc5249b83b72b168b267",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
