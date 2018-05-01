@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0c5b68e0_f20280e3",
+        "filename": "ceph-lock-reaper/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011946
+      },
+      "writtenOn": "2018-05-01T19:14:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33118c0d_e8d3e107",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 27
+      },
+      "revId": "5cd9f07e64122678e7d06fce3cf1e38aaf25688c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acce4d35_3ad9a7b6",
         "filename": "ceph-lock-reaper/Dockerfile",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-01T19:04:05Z",
       "side": 1,
       "message": "mixing pkg and pip, should avoid that",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "5cd9f07e64122678e7d06fce3cf1e38aaf25688c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "099325cf_1f0bc181",
+        "filename": "ceph-lock-reaper/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011946
+      },
+      "writtenOn": "2018-05-01T19:14:05Z",
+      "side": 1,
+      "message": "I agree with this in principal.  However, pip install rbd/rados does not function in this container correctly.  I have not determined exactly why - however the needed libraries can be provided by python-ceph to move things forward.",
+      "parentUuid": "acce4d35_3ad9a7b6",
       "range": {
         "startLine": 8,
         "startChar": 0,
