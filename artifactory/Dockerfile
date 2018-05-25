@@ -1,4 +1,4 @@
-FROM docker.bintray.io/jfrog/artifactory-pro:5.9.3
+FROM docker.bintray.io/jfrog/artifactory-pro:5.11.1
 
 # specific to 5.1.46; revisit this when a new driver is released
 RUN curl -sL https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.46.tar.gz | \
