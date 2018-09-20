@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1f2837_40f3c97b",
+        "filename": "staas-backup/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013242
+      },
+      "writtenOn": "2018-09-20T14:58:14Z",
+      "side": 1,
+      "message": "This needs to be configurable so that it can be pulled from internal artifactory",
+      "revId": "73c3ccaa53f7a2b5faba468f11bae08f35d7909c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
