@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "207cd30d_c3968686",
+        "filename": "staas-backup/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013242
+      },
+      "writtenOn": "2018-10-11T23:00:42Z",
+      "side": 1,
+      "message": "We need to work with the CICD team so that they host the equivalent packages under debian format",
+      "revId": "ca5dbf781a1825098b1325edbeb1911cac130245",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
