@@ -22,6 +22,7 @@ LABEL             ?= commit-id
 IMAGE_NAME        := docker-brew-ubuntu-core-xenial buildpack-deps-xenial-curl buildpack-deps-xenial-scm buildpack-deps-xenial python-3.5-xenial python-3.6-xenial
 BUILD_DIR         := $(shell mktemp -d)
 UBUNTU_BASE_IMAGE ?= ubuntu:16.04
+UBUNTU_BASE_IMAGE_PACKAGE ?= https://partner-images.canonical.com/core/xenial/current/ubuntu-xenial-core-cloudimg-amd64-root.tar.gz
 
 .PHONY: images
 #Build all images in the list
@@ -30,6 +31,8 @@ images: $(IMAGE_NAME)
 docker-brew-ubuntu-core-xenial:
 	@echo
 	@echo "===== Processing [$@] image ====="
+        @cd base-images/docker-brew-ubuntu-core/xenial
+        @wget -O ubuntu-xenial-core-cloudimg-amd64-root.tar.gz $(UBUNTU_BASE_IMAGE_PACKAGE)
 	@make build IMAGE=$(IMAGE_PREFIX)/ubuntu:xenial IMAGE_DIR=docker-brew-ubuntu-core/xenial UBUNTU_BASE_IMAGE=scratch
 
 buildpack-deps-xenial-curl:
