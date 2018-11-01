@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc92951_e13bb50d",
+        "filename": "artifactory/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2018-11-01T18:57:08Z",
+      "side": 1,
+      "message": "we were using quay.io builder which last i checked didn\u0027t support ARG\n\nwill this work?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 59
+      },
+      "revId": "138eeae338d12ecac68529fd30cd354aa4e4ae5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
