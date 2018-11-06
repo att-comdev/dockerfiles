@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1edd983_8aa62159",
+        "filename": "staas-backup/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2018-11-06T07:20:35Z",
+      "side": 1,
+      "message": "This must never be exposed.",
+      "range": {
+        "startLine": 15,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 89
+      },
+      "revId": "d653e2c003c702d7ad62ed0bff17de0dc02e89e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
