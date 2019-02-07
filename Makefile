@@ -20,6 +20,7 @@ IMAGES := \
 	helm:latest \
 	helm:ubuntu-v2.1.3 \
 	helm:v2.1.3 \
+	jenkins:lts \
 	kolla-builder:latest \
 	kube-controller-manager:latest \
 	kube-controller-manager:v1.6.8 \
@@ -29,6 +30,7 @@ IMAGES := \
 
 DEFAULT_NAMESPACE := quay.io/attcomdev
 
+EXTRA_BUILD_ARGS := extraBuildParametersToDockerBuild
 
 #-------#
 # Setup #
@@ -60,12 +62,14 @@ run_submake = \
 			DEFAULT_NAMESPACE=$(DEFAULT_NAMESPACE) \
 			DEFAULT_IMAGE=$(call get_dir, $1) \
 			DEFAULT_TAG=$(call get_tag, $1) \
+			EXTRA_BUILD_ARGS=$(EXTRA_BUILD_ARGS) \
 		; \
 	else \
 		$(MAKE) -f ../Makefile.default -C $(call get_dir, $1) $(call get_task, $1) \
 			NAMESPACE=$(DEFAULT_NAMESPACE) \
 			IMAGE=$(call get_dir, $1) \
 			TAG=$(call get_tag, $1) \
+			EXTRA_BUILD_ARGS=$(EXTRA_BUILD_ARGS) \
 		; \
 	fi
 
