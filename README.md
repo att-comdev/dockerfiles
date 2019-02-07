@@ -64,3 +64,4 @@ The custom makefile will receive the following environment variables:
 - `DEFAULT_NAMESPACE` - Currently this will always be `quay.io/attcomdev`.
 - `DEFAULT_IMAGE` - This will be the name of the directory.
 - `DEFAULT_TAG` - This will be the tag specified in the top level `Makefile`.
+- `EXTRA_BUILD_ARGS` - This, if needed, can be overridden to pass build parameters to docker build
