@@ -20,6 +20,7 @@ IMAGES := \
 	helm:latest \
 	helm:ubuntu-v2.1.3 \
 	helm:v2.1.3 \
+	jenkins:latest \
 	kolla-builder:latest \
 	kube-controller-manager:latest \
 	kube-controller-manager:v1.6.8 \
