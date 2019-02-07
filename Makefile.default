@@ -13,7 +13,7 @@
 # limitations under the License.
 
 build:
-	sudo docker build -t $(NAMESPACE)/$(IMAGE):$(TAG) .
+	sudo docker build $(EXTRA_BUILD_ARGS) -t $(NAMESPACE)/$(IMAGE):$(TAG) .
 
 push:
 	sudo docker push $(NAMESPACE)/$(IMAGE):$(TAG)
