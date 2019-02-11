@@ -22,6 +22,30 @@
       "revId": "f7c006165566fa0560c8388a1742773e528d1eb1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fcec648_91ab65f9",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1014398
+      },
+      "writtenOn": "2019-02-11T14:34:04Z",
+      "side": 1,
+      "message": "The dockerfile pulls the jenkins:lts image. I think it would be better if I changed this to lts. This naming convention will be relevant when a user builds all the dockerfiles in the dockerfiles repo using the Makefile. Essentially, the jenkins:lts image that was pulled, after the plugins download,will appear as \u0027jenkins:latest\u0027 when the user does a `docker images` after using the Makefile to build the images. I think it is safe to leave it this way or change it to lts if needed.\n\nFrom the userstory point of view, we would use only the dockerfile and not this Makefile.",
+      "parentUuid": "53ef8279_07b6b867",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "f7c006165566fa0560c8388a1742773e528d1eb1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
