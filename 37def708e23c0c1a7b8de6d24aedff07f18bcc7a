@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "029e8643_e5974509",
+        "filename": "jenkins/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014829
+      },
+      "writtenOn": "2019-04-16T15:15:55Z",
+      "side": 1,
+      "message": "Is this curl gonna work without setting the proxy?",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 110
+      },
+      "revId": "37def708e23c0c1a7b8de6d24aedff07f18bcc7a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
