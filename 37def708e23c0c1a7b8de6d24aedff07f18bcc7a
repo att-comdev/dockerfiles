@@ -22,6 +22,30 @@
       "revId": "37def708e23c0c1a7b8de6d24aedff07f18bcc7a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cc52469_b6c81835",
+        "filename": "jenkins/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014398
+      },
+      "writtenOn": "2019-05-07T10:50:27Z",
+      "side": 1,
+      "message": "Proxy will be passed through build arguments",
+      "parentUuid": "029e8643_e5974509",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 110
+      },
+      "revId": "37def708e23c0c1a7b8de6d24aedff07f18bcc7a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
