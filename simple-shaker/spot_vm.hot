@@ -1,0 +1,26 @@
+heat_template_version: 2013-05-23
+
+description:
+  This Heat template creates a single VM to be used for spot testing
+
+resources:
+  shaker_spot:
+    type: OS::Nova::Server
+    properties:
+      name: shaker_spot
+      image: shaker-image
+      flavor: m1.small
+      networks:
+        - network: public
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            /usr/local/bin/iperf3 -s -p $PORT
+          params:
+            "$PORT": "8080"
+
+outputs:
+  shaker_spot_ip:
+    value: { get_attr: [ shaker_spot, first_address ] }
+
