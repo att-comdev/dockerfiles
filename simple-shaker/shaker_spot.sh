@@ -43,7 +43,8 @@ stack_status=none
 until [[ $stack_status == CREATE_COMPLETE ]]; do
   # terminate if the stack failed to create
   if [[ $stack_status == CREATE_FAILED ]]; then
-    echo "Heat stack creation failed, check OpenStack for details"
+    echo "Heat stack creation failed"
+    openstack stack show "$stack_name"
     exit 1
   fi
 
