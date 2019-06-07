@@ -12,6 +12,7 @@ resources:
       flavor: m1.small
       networks:
         - network: public
+        - port: { get_resource: server_port_int }
       user_data:
         str_replace:
           template: |
@@ -20,7 +21,32 @@ resources:
           params:
             "$PORT": "8080"
 
+  port_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: shaker-spot-security-group
+      description: Shake spot security group
+      rules:
+       - remote_ip_prefix: 0.0.0.0/0
+         protocol: tcp
+         port_range_min: 1
+         port_range_max: 65535
+       - remote_ip_prefix: 0.0.0.0/0
+         protocol: udp
+         port_range_min: 1
+         port_range_max: 65535
+       - remote_ip_prefix: 0.0.0.0/0
+         protocol: icmp
+
+  server_port_int:
+    type: OS::Neutron::Port
+    properties:
+      network_id: private
+      fixed_ips:
+        - subnet_id: private-subnet
+      security_groups:
+        - { get_resource: port_security_group }
+
 outputs:
   shaker_spot_ip:
     value: { get_attr: [ shaker_spot, first_address ] }
-
