@@ -11,7 +11,7 @@ resources:
       image: shaker-image
       flavor: m1.small
       networks:
-        - port: { get_resource: public_server_port_int }
+        - port: { get_resource: routable_port_int }
       user_data:
         str_replace:
           template: |
@@ -20,12 +20,12 @@ resources:
           params:
             "$PORT": "8080"
 
-  public_server_port_int:
+  routable_port_int:
     type: OS::Neutron::Port
     properties:
-      network_id: public
+      network_id: routable
       fixed_ips:
-        - subnet_id: public-subnet
+        - subnet_id: routable-subnet
       security_groups:
         - { get_resource: port_security_group }
 
