@@ -14,7 +14,7 @@ RUN pip install pyshaker openstackclient flent
 RUN wget http://ftp.br.debian.org/debian/pool/non-free/n/netperf/netperf_2.6.0-2_amd64.deb && \
     dpkg -i netperf_2.6.0-2_amd64.deb && apt install -f
 
-COPY shaker_spot.sh spot_vm.hot /opt/
+COPY *.sh spot_vm.hot /opt/
 
 WORKDIR /opt
 
