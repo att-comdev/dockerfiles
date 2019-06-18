@@ -9,12 +9,12 @@ RUN wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py
 
 RUN pip install -U pbr setuptools
-RUN pip install pyshaker openstackclient flent
+RUN pip install pyshaker openstackclient flent==1.2.2
 
 RUN wget http://ftp.br.debian.org/debian/pool/non-free/n/netperf/netperf_2.6.0-2_amd64.deb && \
     dpkg -i netperf_2.6.0-2_amd64.deb && apt install -f
 
-COPY shaker_spot.sh spot_vm.hot /opt/
+COPY *.sh spot_vm.hot /opt/
 
 WORKDIR /opt
 
