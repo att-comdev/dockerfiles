@@ -8,51 +8,39 @@ export TERM=xterm-color
 function finish {
   # clean up the stack
   openstack stack delete -y "$stack_name"
+
+  rm $input_file
 }
 
-# make a copy of the input file
-cp "$1" ./shaker.cfg
-input_file="shaker.cfg"
+trap 'finish' EXIT
 
 stack_name="shaker_spot_stack"
 
-cat << EOF > /opt/openrc
-export OS_USERNAME=$(awk '$1=="os_username"{print $3}' $input_file)
-export OS_PASSWORD=$(awk '$1=="os_password"{print $3}' $input_file)
-export OS_PROJECT_NAME=$(awk '$1=="os_project_name"{print $3}' $input_file)
-export OS_AUTH_URL=$(awk '$1=="os_auth_url"{print $3}' $input_file)
-export OS_REGION_NAME=$(awk '$1=="os_region_name"{print $3}' $input_file)
-export EXTERNAL_NET=$(awk '$1=="external_net"{print $3}' $input_file)
-export OS_PROJECT_DOMAIN_NAME=$(awk '$1=="os_project_domain_name"{print $3}' $input_file)
-export OS_USER_DOMAIN_NAME=$(awk '$1=="os_user_domain_name"{print $3}' $input_file)
-export OS_IDENTITY_API_VERSION=$(awk '$1=="os_identity_api_version"{print $3}' $input_file)
-export OS_INTERFACE=$(awk '$1=="os_interface"{print $3}' $input_file)
+# make a copy of the input file
+cp "$1" ./shaker-copy.cfg
+input_file="shaker-copy.cfg"
 
-EOF
-
-trap 'finish' EXIT
+# create openrc for openstack cli commands
+./create_openrc_from_cfg.sh "$input_file"
 
 set +x
 # shellcheck disable=SC1091
 # shellcheck source=/dev/null
-source /opt/openrc
+source openrc
 eval "$traceset"
 
+# delete the stack first in case it exists
+set +e
+openstack stack delete -y "$stack_name"
+set -e
+
+# create the stack to be used for testing
 openstack stack create -t spot_vm.hot $stack_name
-stack_status=none
-until [[ $stack_status == CREATE_COMPLETE ]]; do
-  # terminate if the stack failed to create
-  if [[ $stack_status == CREATE_FAILED ]]; then
-    echo "Heat stack creation failed"
-    openstack stack show "$stack_name"
-    exit 1
-  fi
 
-  sleep 10
+# wait until the stack is created
+./validate_spot_stack.sh $stack_name
 
-  stack_status=$(openstack stack show "$stack_name" |awk '$2=="stack_status"{print $4}')
-done
-
+# figure out the ip of the target vm
 vm_ip=$(openstack stack show "$stack_name" -f table -c outputs | awk '/output_value/ { print $4 }')
 local_ip="$(ip route get 1 | awk '{print $NF;exit}')"
 
@@ -66,3 +54,4 @@ sed -i 's|SPOT_IP|'"$vm_ip"'|g' "$input_file"
 export SHAKER_SERVER_ENDPOINT="$local_ip:8080"
 
 shaker --config-file "$input_file"
+
