@@ -3,12 +3,24 @@ heat_template_version: 2013-05-23
 description:
   This Heat template creates a single VM to be used for spot testing
 
+parameters:
+  external_network:
+    type: string
+    description: Name of name of the public externally routable network
+    default: routable
+  external_subnet:
+    type: string
+    description: Name of name of the public externally routable subnet
+    default: routable-subnet
+
 resources:
   shaker_spot:
     type: OS::Nova::Server
     properties:
       name: shaker_spot
-      image: shaker-image
+      block_device_mapping: [{"volume_id": { get_resource: resiliency_vol },
+                              "delete_on_termination": true,
+                              "device_name": "vda"}]
       flavor: m1.small
       networks:
         - port: { get_resource: routable_port_int }
@@ -23,9 +35,9 @@ resources:
   routable_port_int:
     type: OS::Neutron::Port
     properties:
-      network_id: routable
+      network_id: { get_param: external_network }
       fixed_ips:
-        - subnet_id: routable-subnet
+        - subnet_id: { get_param: external_subnet }
       security_groups:
         - { get_resource: port_security_group }
 
@@ -45,6 +57,12 @@ resources:
          port_range_max: 65535
        - remote_ip_prefix: 0.0.0.0/0
          protocol: icmp
+
+  resiliency_vol:
+    type: OS::Cinder::Volume
+    properties:
+      size: 20
+      image: shaker-image
 
 outputs:
   shaker_spot_ip:
