@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5feffae1_de8e57b4",
+        "filename": "simple-shaker/shaker_spot.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013122
+      },
+      "writtenOn": "2019-07-08T15:45:25Z",
+      "side": 1,
+      "message": "do we need a way to get the params from the jenkinsfile into here? maybe $2 \u0026\u0026 $3 for network/subnet names, unless there\u0027s a better way you know of? a check to see if they\u0027re passed in.. if they aren\u0027t, execute what\u0027s here (and use the defaults that are in the hot template), otherwise something like:\n\nopenstack stack create -t spot_vm.hot $stack_name --parameter external_network\u003d\"$2\" --parameter external_subnet\u003d\"$3\"?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "3a6a67aa34660b72a29bfce4e77478d4119ed79e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e62c80aa_2d46e0ba",
+        "filename": "simple-shaker/shaker_spot_continuous.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013122
+      },
+      "writtenOn": "2019-07-08T15:45:25Z",
+      "side": 1,
+      "message": "same here for the jenkins build params as the non-continuous script",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "3a6a67aa34660b72a29bfce4e77478d4119ed79e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b017d3d_1db43fdf",
+        "filename": "simple-shaker/spot_vm.hot",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013122
+      },
+      "writtenOn": "2019-07-08T15:45:25Z",
+      "side": 1,
+      "message": "I would suggest rebasing, as this particular file looks out of date.",
+      "revId": "3a6a67aa34660b72a29bfce4e77478d4119ed79e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf0dd69e_e5748a5e",
+        "filename": "simple-shaker/spot_vm.hot",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013122
+      },
+      "writtenOn": "2019-07-08T15:45:25Z",
+      "side": 1,
+      "message": "would it be worthwhile to add defaults here, in case something doesn\u0027t get passed? maybe \"routable\" and \"routable-subnet\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "3a6a67aa34660b72a29bfce4e77478d4119ed79e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9b2f747_ab912cb2",
+        "filename": "simple-shaker/spot_vm.hot",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013122
+      },
+      "writtenOn": "2019-07-08T15:45:25Z",
+      "side": 1,
+      "message": "I think the subnet changes as well, in addition to the network name. An extra parameter, perhaps?",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 34
+      },
+      "revId": "3a6a67aa34660b72a29bfce4e77478d4119ed79e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
