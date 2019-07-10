@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60968ad5_acf3e739",
+        "filename": "simple-shaker/shaker_spot_continuous.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1012483
+      },
+      "writtenOn": "2019-07-10T21:50:24Z",
+      "side": 1,
+      "message": "I think this need to be part of pipeline or a different shell script where can be called on pipeline based on other parallel process status",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "73b0217270e3cdc31714ff13ad201adaf7fc6bcd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
