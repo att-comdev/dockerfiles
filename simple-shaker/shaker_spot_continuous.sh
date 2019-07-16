@@ -131,7 +131,7 @@ echo "Watching for flag.done in $PWD"
 until [[ -f ./flag.done ]]; do
   block=$(printf '%02d' $counter)
   cp ping.yaml data/ping"$block".yaml
-  sed -i '1s|title: Ping|title: Ping'"$counter"'|g' data/ping"$counter".yaml
-  shaker --config-file "$input_file" --output data/output-"$counter".json --scenario data/ping"$counter".yaml
+  sed -i '1s|title: Ping|title: Ping'"$block"'|g' data/ping"$block".yaml
+  shaker --config-file "$input_file" --output data/output-"$block".json --scenario data/ping"$block".yaml
   (( counter++ ))
 done
