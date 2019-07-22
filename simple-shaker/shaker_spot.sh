@@ -18,6 +18,22 @@ function finish {
   rm "$input_file"
 }
 
+function delete_stack {
+  delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
+
+  checks=1
+  while [[ $delete_check != *"Stack not found"* ]]; do
+    if (( $checks % 10 == 0 )); then
+      delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
+      # safety
+      checks=1
+    fi
+    sleep 5
+    delete_check=$(openstack stack show -f yaml -c id -c stack_status "$stack_name" 2>&1) || true
+    (( checks++ ))
+  done
+}
+
 trap 'finish' EXIT
 
 stack_name="shaker_spot_stack"
@@ -36,18 +52,25 @@ source openrc
 eval "$traceset"
 
 # delete the stack first in case it exists
-delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
+delete_stack
 
-while [[ $delete_check != *"Stack not found"* ]]; do
-  sleep 5
-  delete_check=$(openstack stack show -f yaml -c id -c stack_status "$stack_name" 2>&1) || true
+rc=3
+while (( rc == 3 )); do
+  # create the stack to be used for testing
+  openstack stack create --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+
+  # wait until the stack is created
+  set +e
+  ./validate_spot_stack.sh $stack_name
+  rc=$?
+  set -e
+
+  if (( rc == 1 )); then
+    exit 1
+  fi
+
+  delete_stack
 done
-
-# create the stack to be used for testing
-openstack stack create --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
-
-# wait until the stack is created
-./validate_spot_stack.sh $stack_name
 
 # figure out the ip of the target vm
 vm_ip=$(openstack stack show "$stack_name" -f table -c outputs | awk '/output_value/ { print $4 }')
@@ -63,4 +86,3 @@ sed -i 's|SPOT_IP|'"$vm_ip"'|g' "$input_file"
 export SHAKER_SERVER_ENDPOINT="$local_ip:8080"
 
 shaker --config-file "$input_file"
-
