@@ -14,6 +14,7 @@ source openrc
 eval "$traceset"
 
 stack_status=none
+checks=0
 until [[ $stack_status == CREATE_COMPLETE ]]; do
   # terminate if the stack failed to create
   if [[ $stack_status == CREATE_FAILED ]]; then
@@ -22,8 +23,21 @@ until [[ $stack_status == CREATE_COMPLETE ]]; do
     exit 1
   fi
 
+  if [[ $stack_status == *"Stack not found"* ]]; then
+    echo "Heat stack not found"
+    exit 1
+  fi
+
+  # 5 mins
+  if (( $checks == 30 )); then
+    echo "Heat stack creation isn't finishing"
+    openstack stack show "$stack_name"
+    # arbitrary
+    exit 3
+  fi
+
   sleep 10
 
   stack_status=$(openstack stack show "$stack_name" |awk '$2=="stack_status"{print $4}' || echo "none")
+  checks=$((checks+1))
 done
-
