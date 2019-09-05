@@ -10,6 +10,6 @@ RUN apt-get -y update \
     | xargs -r0 rm -v
 
 USER jenkins
-
+RUN pwd
 RUN /usr/local/bin/install-plugins.sh \
     $(curl 'https://raw.githubusercontent.com/att-comdev/charts/master/jenkins/templates/etc/_plugins.txt.tpl')
