@@ -3,7 +3,7 @@ FROM bitnami/minideb:jessie
 LABEL maintainer "Oded Le'Sage <ol7435@att.com>"
 
 RUN apt update && install_packages python-dev wget gcc nano less \
-    iproute2 iperf3 iputils-ping bc jq
+    openssh-client iproute2 iperf3 iputils-ping bc jq
 
 RUN wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py
