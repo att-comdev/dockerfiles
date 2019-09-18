@@ -113,17 +113,20 @@ eval "$traceset"
 # delete the stack first in case it exists
 delete_stack
 
+# create the keypair to be used for testing
+ssh-keygen -t rsa -N '' -f shaker_spot_key
+
 # create the stack to be used for testing
-openstack stack create --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
 
 # enable retrying delete/create
 while ! ./validate_spot_stack.sh $stack_name true; do
   delete_stack
-  openstack stack create --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+  openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
 done
 
 # figure out the ip of the target vm
-vm_ip=$(openstack stack show "$stack_name" -f table -c outputs | awk '/output_value/ { print $4 }')
+vm_ip=$(openstack stack output show -f value -c output_value "$stack_name" shaker_spot_ip)
 local_ip="$(ip route get 1 | awk '{print $NF;exit}')"
 
 # clear server_endpoint if set, since this is spot it's not useful
@@ -149,3 +152,6 @@ until [[ -f ./flag.done ]]; do
   shaker --config-file "$input_file" --output data/output-"$block".json --scenario data/ping"$block".yaml
   (( counter++ ))
 done
+
+ssh -i shaker_spot_key -o "StrictHostKeyChecking=no" ubuntu@$vm_ip uptime > uptime.txt
+cat uptime.txt
