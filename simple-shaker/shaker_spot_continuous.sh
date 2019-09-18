@@ -123,7 +123,8 @@ while ! ./validate_spot_stack.sh $stack_name true; do
 done
 
 # figure out the ip of the target vm
-vm_ip=$(openstack stack show "$stack_name" -f table -c outputs | awk '/output_value/ { print $4 }')
+vm_ip=$(openstack stack output show -f value -c output_value "$stack_name" shaker_spot_ip)
+#vm_ip=$(openstack stack show "$stack_name" -f table -c outputs | awk '/output_value/ { print $4 }')
 local_ip="$(ip route get 1 | awk '{print $NF;exit}')"
 
 # clear server_endpoint if set, since this is spot it's not useful
@@ -149,3 +150,7 @@ until [[ -f ./flag.done ]]; do
   shaker --config-file "$input_file" --output data/output-"$block".json --scenario data/ping"$block".yaml
   (( counter++ ))
 done
+
+#pk=$(openstack stack output show -f value -c output_value $stack_name shaker_spot_key)
+ssh $vm_ip uptime > uptime.txt
+cat uptime.txt

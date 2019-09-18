@@ -24,6 +24,7 @@ resources:
       flavor: m1.small
       networks:
         - port: { get_resource: routable_port_int }
+      key_name: { get_resource: resiliency_key_pair }
       user_data:
         str_replace:
           template: |
@@ -64,6 +65,14 @@ resources:
       size: 20
       image: shaker-image
 
+  resiliency_key_pair:
+    type: OS::Nova::KeyPair
+    properties:
+      save_private_key: true
+      name: resil_key
+
 outputs:
   shaker_spot_ip:
     value: { get_attr: [ shaker_spot, first_address ] }
+  shaker_spot_key:
+    value: { get_attr: [ resiliency_key_pair, private_key ] }
