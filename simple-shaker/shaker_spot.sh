@@ -54,17 +54,20 @@ eval "$traceset"
 # delete the stack first in case it exists
 delete_stack
 
+# create the keypair to be used for testing
+ssh-keygen -t rsa -N '' -f shaker_spot_key
+
 # create the stack to be used for testing
-openstack stack create --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
 
 # enable retrying delete/create
 while ! ./validate_spot_stack.sh $stack_name true; do
   delete_stack
-  openstack stack create --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+  openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
 done
 
 # figure out the ip of the target vm
-vm_ip=$(openstack stack show "$stack_name" -f table -c outputs | awk '/output_value/ { print $4 }')
+vm_ip=$(openstack stack output show -f value -c output_value "$stack_name" shaker_spot_ip)
 local_ip="$(ip route get 1 | awk '{print $NF;exit}')"
 
 # clear server_endpoint if set, since this is spot it's not useful
@@ -77,3 +80,6 @@ sed -i 's|SPOT_IP|'"$vm_ip"'|g' "$input_file"
 export SHAKER_SERVER_ENDPOINT="$local_ip:8080"
 
 shaker --config-file "$input_file"
+
+ssh -i shaker_spot_key -o "StrictHostKeyChecking=no" ubuntu@$vm_ip uptime > vm-uptime.txt
+cat vm-uptime.txt || true
