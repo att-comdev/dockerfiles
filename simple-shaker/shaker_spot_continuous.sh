@@ -149,3 +149,7 @@ until [[ -f ./flag.done ]]; do
   shaker --config-file "$input_file" --output data/output-"$block".json --scenario data/ping"$block".yaml
   (( counter++ ))
 done
+
+#pk=$(openstack stack output show -f value -c output_value $stack_name shaker_spot_key)
+ssh $vm_ip uptime > uptime.txt
+cat uptime.txt

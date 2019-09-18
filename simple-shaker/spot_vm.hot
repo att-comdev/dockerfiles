@@ -64,6 +64,14 @@ resources:
       size: 20
       image: shaker-image
 
+  resiliency_key_pair:
+    type: OS::Nova::KeyPair
+    properties:
+      save_private_key: true
+      name: resil_key
+
 outputs:
   shaker_spot_ip:
     value: { get_attr: [ shaker_spot, first_address ] }
+  shaker_spot_key:
+    value: { get_attr: [ resiliency_key_pair, shaker_key ] }
