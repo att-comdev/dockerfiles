@@ -12,23 +12,25 @@ export TERM=xterm-color
 function finish {
   # clean up the stack
   set +e
-  openstack stack delete -y "$stack_name"
+  openstack stack delete -y --wait "$stack_name"
   set -e
 
   rm "$input_file"
 }
 
 function delete_stack {
-  delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
+  delete_check=$(openstack stack delete -y --wait "$stack_name" 2>&1) || true
 
   checks=1
   while [[ $delete_check != *"Stack not found"* ]]; do
-    if (( $checks % 10 == 0 )); then
+    if (( checks % 10 == 0 )); then
+      if (( checks >= 100 )); then
+        echo "ERROR: Unable to delete $stack_name stack after multiple attempts."
+        exit 1
+      fi
       delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
-      # safety
-      checks=1
     fi
-    sleep 5
+    sleep 12
     delete_check=$(openstack stack show -f yaml -c id -c stack_status "$stack_name" 2>&1) || true
     checks=$((checks+1))
   done
@@ -61,9 +63,15 @@ ssh-keygen -t rsa -N '' -f shaker_spot_key
 openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
 
 # enable retrying delete/create
+retries=0
 while ! ./validate_spot_stack.sh $stack_name true; do
+  if (( retries >= 5 )); then
+    echo "ERROR: Heat stack create retry limit hit"
+    exit 1
+  fi
   delete_stack
   openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+  retries=$((retries+1))
 done
 
 # figure out the ip of the target vm
