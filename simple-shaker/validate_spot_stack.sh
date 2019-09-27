@@ -29,19 +29,27 @@ checks=0
 until [[ $stack_status == CREATE_COMPLETE ]]; do
   # terminate if the stack failed to create
   if [[ $stack_status == CREATE_FAILED ]]; then
-    echo "Heat stack creation failed"
+    echo "ERROR: Heat stack creation failed"
     openstack stack show "$stack_name"
-    exit 1
+    if [ $return_status == true ]; then
+      return 1
+    else
+      exit 1
+    fi
   fi
 
   if [[ $stack_status == *"Stack not found"* ]]; then
-    echo "Heat stack not found"
-    exit 1
+    echo "ERROR: Heat stack not found"
+    if [ $return_status == true ]; then
+      return 1
+    else
+      exit 1
+    fi
   fi
 
   # 5 mins
-  if (( $checks == 30 )) && [ $return_status == true ]; then
-    echo "Heat stack creation isn't finishing"
+  if (( checks >= 30 )) && [ $return_status == true ]; then
+    echo "ERROR: Heat stack creation isn't finishing"
     openstack stack show "$stack_name"
     return 1
   fi
