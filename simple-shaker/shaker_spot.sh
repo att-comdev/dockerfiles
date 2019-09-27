@@ -12,19 +12,19 @@ export TERM=xterm-color
 function finish {
   # clean up the stack
   set +e
-  openstack stack delete -y "$stack_name"
+  openstack stack delete -y --wait "$stack_name"
   set -e
 
   rm "$input_file"
 }
 
 function delete_stack {
-  delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
+  delete_check=$(openstack stack delete -y --wait "$stack_name" 2>&1) || true
 
   checks=1
   while [[ $delete_check != *"Stack not found"* ]]; do
     if (( $checks % 10 == 0 )); then
-      delete_check=$(openstack stack delete -y "$stack_name" 2>&1) || true
+      delete_check=$(openstack stack delete -y --wait "$stack_name" 2>&1) || true
       # safety
       checks=1
     fi
