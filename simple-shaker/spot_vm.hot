@@ -24,7 +24,7 @@ resources:
       block_device_mapping: [{"volume_id": { get_resource: resiliency_vol },
                               "delete_on_termination": true,
                               "device_name": "vda"}]
-      flavor: m1.small
+      flavor: { get_resource: resil_flavor }
       networks:
         - port: { get_resource: routable_port_int }
       key_name: { get_resource: resiliency_key_pair }
@@ -44,6 +44,16 @@ resources:
         - subnet_id: { get_param: external_subnet }
       security_groups:
         - { get_resource: port_security_group }
+
+  resil_flavor:
+    type: OS::Nova::Flavor
+    properties:
+      name: resil.small.hpgs
+      is_public: true
+      disk: 20
+      ram: 2048
+      vcpus: 1
+      extra_specs: { "hw:mem_page_size": "large" }
 
   port_security_group:
     type: OS::Neutron::SecurityGroup
