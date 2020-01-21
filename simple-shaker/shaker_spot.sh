@@ -10,9 +10,14 @@ export TERM=xterm-color
 #$3 - external network subnet
 
 function finish {
-  # clean up the stack
+
   set +e
+  # clean up the stack
   openstack stack delete -y --wait "$stack_name"
+  # reset the network back to internal
+  openstack network set --internal "$network_name"
+  # cleanup our flavor
+  openstack flavor delete $flavor_name
   set -e
 
   rm "$input_file"
@@ -39,6 +44,8 @@ function delete_stack {
 trap 'finish' EXIT
 
 stack_name="shaker_spot_stack"
+network_name="$2"
+subnet_name="$3"
 
 # make a copy of the input file
 cp "$1" ./shaker-copy.cfg
@@ -56,11 +63,20 @@ eval "$traceset"
 # delete the stack first in case it exists
 delete_stack
 
+# check that our flavor is in place
+flavor_name="resil.small.hpgs"
+if [ -z $(openstack flavor list -f value | grep resil.small | awk '{ print $2 }') ]; then
+  openstack flavor create --ram 2048 --disk 20 --vcpus 1 --public --property hw:mem_page_size='large' $flavor_name
+fi
+
+# ensure our network is flagged as external
+openstack network set --external "$network_name" || true
+
 # create the keypair to be used for testing
 ssh-keygen -t rsa -N '' -f shaker_spot_key
 
 # create the stack to be used for testing
-openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+openstack stack create --parameter "flavor_name=$flavor_name" --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$network_name" --parameter "external_subnet=$subnet_name" -t spot_vm.hot $stack_name
 
 # enable retrying delete/create
 retries=0
@@ -70,7 +86,7 @@ while ! ./validate_spot_stack.sh $stack_name true; do
     exit 1
   fi
   delete_stack
-  openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+  openstack stack create --parameter "flavor_name=$flavor_name" --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$network_name" --parameter "external_subnet=$subnet_name" -t spot_vm.hot $stack_name
   retries=$((retries+1))
 done
 
