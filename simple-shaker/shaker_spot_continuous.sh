@@ -99,6 +99,16 @@ rm flag.done || true
 
 stack_name="shaker_spot_stack"
 
+# check that our flavor is in place
+flavor_name="resil.small.hpgs"
+echo "INFO: Checking that the flavor '$flavor_name' already exists."
+if [ -z $(openstack flavor list -f value | grep resil.small | awk '{ print $2 }') ]; then
+  echo "INFO: Flavor '$flavor_name' does not exist. Creating..."
+  openstack flavor create --ram 2048 --disk 20 --vcpus 1 --public --property hw:mem_page_size='large' $flavor_name
+else
+  echo "INFO: Flavor '$flavor_name' already exists."
+fi
+
 # make a copy of the input file
 cp "$1" ./shaker-copy.cfg
 input_file="shaker-copy.cfg"
@@ -119,7 +129,7 @@ delete_stack
 ssh-keygen -t rsa -N '' -f shaker_spot_key
 
 # create the stack to be used for testing
-openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+openstack stack create --parameter "flavor_name=$flavor_name" --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
 
 # enable retrying delete/create
 retries=0
@@ -129,7 +139,7 @@ while ! ./validate_spot_stack.sh $stack_name true; do
     exit 1
   fi
   delete_stack
-  openstack stack create --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
+  openstack stack create --parameter "flavor_name=$flavor_name" --parameter "public_key=$(cat shaker_spot_key.pub)" --parameter "external_network=$2" --parameter "external_subnet=$3" -t spot_vm.hot $stack_name
   retries=$((retries+1))
 done
 
