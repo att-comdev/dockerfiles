@@ -15,6 +15,9 @@ parameters:
   public_key:
     type: string
     description: Public key (e.g. ssh-rsa foo..bar)
+  flavor_name:
+    type: string
+    description: Name of the flavor used to create the instance
 
 resources:
   shaker_spot:
@@ -24,7 +27,7 @@ resources:
       block_device_mapping: [{"volume_id": { get_resource: resiliency_vol },
                               "delete_on_termination": true,
                               "device_name": "vda"}]
-      flavor: m1.small
+      flavor: { get_param: flavor_name }
       networks:
         - port: { get_resource: routable_port_int }
       key_name: { get_resource: resiliency_key_pair }
