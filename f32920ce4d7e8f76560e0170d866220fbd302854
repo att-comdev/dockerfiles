@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "162b84fa_57d462d2",
+        "filename": "artifactory696/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-02-07T14:44:53Z",
+      "side": 1,
+      "message": "Remove trailing whitespace.",
+      "range": {
+        "startLine": 1,
+        "startChar": 27,
+        "endLine": 1,
+        "endChar": 32
+      },
+      "revId": "f32920ce4d7e8f76560e0170d866220fbd302854",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85578e09_7e58fe2c",
+        "filename": "artifactory696/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-02-07T14:44:53Z",
+      "side": 1,
+      "message": "Usually we want FROM to be overridable. Make it a variable with default value set.",
+      "range": {
+        "startLine": 2,
+        "startChar": 5,
+        "endLine": 2,
+        "endChar": 51
+      },
+      "revId": "f32920ce4d7e8f76560e0170d866220fbd302854",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd59fdb0_6541ae36",
+        "filename": "artifactory696/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-02-07T14:44:53Z",
+      "side": 1,
+      "message": "Just name it runArtifactory.sh, not run.sh.",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "f32920ce4d7e8f76560e0170d866220fbd302854",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d3fb299_118acf5d",
+        "filename": "artifactory696/run.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-02-07T14:44:53Z",
+      "side": 1,
+      "message": "Don\u0027t use 777, please.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 60
+      },
+      "revId": "f32920ce4d7e8f76560e0170d866220fbd302854",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
