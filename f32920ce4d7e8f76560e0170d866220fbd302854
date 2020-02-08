@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "0e2476e9_3be256b5",
+        "filename": "artifactory696/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-02-08T15:59:02Z",
+      "side": 1,
+      "message": "Ignore.",
+      "parentUuid": "f4c1809c_bc7002b7",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 36
+      },
+      "revId": "f32920ce4d7e8f76560e0170d866220fbd302854",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd59fdb0_6541ae36",
         "filename": "artifactory696/Dockerfile",
         "patchSetId": 6
