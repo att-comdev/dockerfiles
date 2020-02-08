@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07116d1_4a77c0a2",
+        "filename": "artifactory-auto/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-02-08T15:58:33Z",
+      "side": 1,
+      "message": "Trailing space.",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "629e800251f9359eca4ac0e582ece494490a65c6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
