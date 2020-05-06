@@ -1,15 +1,15 @@
-FROM bitnami/minideb:jessie
+FROM bitnami/minideb:stretch
 
 LABEL maintainer "Oded Le'Sage <ol7435@att.com>"
 
-RUN apt update && install_packages python-dev wget gcc nano less \
+RUN apt update && install_packages python3.6 wget gcc nano less \
     openssh-client iproute2 iperf3 iputils-ping bc jq
 
 RUN wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py
+    python3 get-pip.py
 
-RUN pip install -U pbr setuptools
-RUN pip install pyshaker openstackclient flent==1.2.2
+RUN pip3 install -U pbr setuptools
+RUN pip3 install pyshaker openstackclient flent==1.2.2
 
 RUN wget http://ftp.br.debian.org/debian/pool/non-free/n/netperf/netperf_2.6.0-2_amd64.deb && \
     dpkg -i netperf_2.6.0-2_amd64.deb && apt install -f
