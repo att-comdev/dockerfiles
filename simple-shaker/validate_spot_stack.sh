@@ -47,8 +47,8 @@ until [[ $stack_status == CREATE_COMPLETE ]]; do
     fi
   fi
 
-  # 5 mins
-  if (( checks >= 30 )) && [ $return_status == true ]; then
+  # 10 mins
+  if (( checks >= 60 )) && [ $return_status == true ]; then
     echo "ERROR: Heat stack creation isn't finishing"
     openstack stack show "$stack_name"
     return 1
@@ -59,3 +59,4 @@ until [[ $stack_status == CREATE_COMPLETE ]]; do
   stack_status=$(openstack stack show "$stack_name" |awk '$2=="stack_status"{print $4}' || echo "none")
   checks=$((checks+1))
 done
+
