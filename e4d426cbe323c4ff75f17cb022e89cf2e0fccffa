@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e42d08_406aab4d",
+        "filename": "cloud-provider-openstack/cluster/images/webhook/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-05-20T18:25:55Z",
+      "side": 1,
+      "message": "This must never be disclosed.",
+      "revId": "e4d426cbe323c4ff75f17cb022e89cf2e0fccffa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
