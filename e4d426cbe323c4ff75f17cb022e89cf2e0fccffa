@@ -34,6 +34,24 @@
       "revId": "e4d426cbe323c4ff75f17cb022e89cf2e0fccffa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a98ff300_c11cc07b",
+        "filename": "cloud-provider-openstack/cluster/images/webhook/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013390
+      },
+      "writtenOn": "2020-05-21T11:48:11Z",
+      "side": 1,
+      "message": "This should have been a comment to a list of proxies (which should never be disclosed). CSO prohibits that and Andrew sends email about it from time to time.",
+      "parentUuid": "4fbdcba0_4fef3a5b",
+      "revId": "e4d426cbe323c4ff75f17cb022e89cf2e0fccffa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
