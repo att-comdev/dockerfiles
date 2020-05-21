@@ -16,6 +16,24 @@
       "revId": "e4d426cbe323c4ff75f17cb022e89cf2e0fccffa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fbdcba0_4fef3a5b",
+        "filename": "cloud-provider-openstack/cluster/images/webhook/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1017748
+      },
+      "writtenOn": "2020-05-21T00:09:26Z",
+      "side": 1,
+      "message": "Could you please elaborate? Does this mean we cannot use a fork of this repo?",
+      "parentUuid": "a8e42d08_406aab4d",
+      "revId": "e4d426cbe323c4ff75f17cb022e89cf2e0fccffa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
