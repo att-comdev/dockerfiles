@@ -27,7 +27,8 @@ IMAGES := \
 	kvm-manager:latest \
 	openvswitch-vswitchd:latest \
 	rabbitmq:3.7.0-pre-15 \
-	simple-shaker:latest
+	simple-shaker:latest \
+	swissknife:latest
 
 DEFAULT_NAMESPACE ?= quay.io/attcomdev
 DEFAULT_IMAGE ?= $(call get_dir, $1)
