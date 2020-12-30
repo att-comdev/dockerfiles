@@ -4,7 +4,7 @@ FROM $ARTF
 
 USER root
 
-ENV PATH $PATH:/java/jdk-11.0.2+9/bin
+ENV PATH $PATH:/opt/jfrog/artifactory/app/third-party/java/bin
 
 COPY SBC-Ent-Root-CA-DER.cer $PWD/SBC-Ent-Root-CA-DER.cer
 COPY TestSBC-Ent-Root-CA-DER.cer $PWD/TestSBC-Ent-Root-CA-DER.cer
