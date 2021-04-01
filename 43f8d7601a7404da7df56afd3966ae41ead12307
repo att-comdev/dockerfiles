@@ -16,6 +16,52 @@
       "message": "Can we avoid adding kubeconfig?",
       "revId": "43f8d7601a7404da7df56afd3966ae41ead12307",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c7ae66e_dc4684eb",
+        "filename": "job-runner/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1015253
+      },
+      "writtenOn": "2021-04-01T15:45:53Z",
+      "side": 1,
+      "message": "could we also use ARG here please?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "43f8d7601a7404da7df56afd3966ae41ead12307",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98279cfa_f15239d7",
+        "filename": "job-runner/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1015253
+      },
+      "writtenOn": "2021-04-01T15:45:53Z",
+      "side": 1,
+      "message": "may you please add dnsutils package",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 65
+      },
+      "revId": "43f8d7601a7404da7df56afd3966ae41ead12307",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
