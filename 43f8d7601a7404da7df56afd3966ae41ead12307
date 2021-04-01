@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6d5d7a4_80de80fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015253
+      },
+      "writtenOn": "2021-04-01T15:44:28Z",
+      "side": 1,
+      "message": "Can we avoid adding kubeconfig?",
+      "revId": "43f8d7601a7404da7df56afd3966ae41ead12307",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
