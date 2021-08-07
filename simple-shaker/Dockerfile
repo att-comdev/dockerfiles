@@ -8,8 +8,8 @@ RUN apt update && install_packages python-dev wget gcc nano less \
 RUN wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py
 
-RUN pip install -U pbr setuptools
-RUN pip install pyshaker openstackclient flent==1.2.2
+RUN pip install --no-cache-dir -U pbr setuptools
+RUN pip install --no-cache-dir pyshaker openstackclient flent==1.2.2
 
 RUN wget http://ftp.br.debian.org/debian/pool/non-free/n/netperf/netperf_2.6.0-2_amd64.deb && \
     dpkg -i netperf_2.6.0-2_amd64.deb && apt install -f
