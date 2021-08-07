@@ -65,7 +65,7 @@ RUN mkdir -p .venv && \
     virtualenv .venv/kolla-builds && \
     . .venv/kolla-builds/bin/activate && \
     cd ./kolla-$KOLLA_VERSION && \
-    pip install -e . && \
+    pip install --no-cache-dir -e . && \
     mkdir -p /etc/kolla
 
 RUN mkdir -p /root/.kolla-$KOLLA_VERSION/src/$KOLLA_PROJECT && \

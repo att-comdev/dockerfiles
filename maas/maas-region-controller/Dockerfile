@@ -49,7 +49,7 @@ RUN apt-get download maas-region-controller && \
     pg_dropcluster --stop 9.5 main
 
 # potentially used to calculate cidrs
-RUN pip3 install netaddr
+RUN pip3 install --no-cache-dir netaddr
 
 # initalize systemd
 CMD ["/sbin/init"]
